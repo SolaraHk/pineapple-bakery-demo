@@ -1,7 +1,12 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { Send, MapPin, Coffee, Croissant, Sparkles, ExternalLink, PartyPopper, ShieldCheck, MessageCircle } from 'lucide-react';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
+import ScrollTrigger from 'gsap/ScrollTrigger';
+import { Send, MapPin, Coffee, Croissant, Sparkles, ExternalLink, PartyPopper, MessageCircle } from 'lucide-react';
 import './styles.css';
+
+gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 const instagramUrl = 'https://www.instagram.com/pineapplebakeryhk/';
 const instagramDmUrl = 'https://ig.me/m/pineapplebakeryhk';
@@ -31,7 +36,7 @@ function getInitialLanguage() {
 
 const copy = {
   en: {
-    photoCredit: 'Public Instagram photo/reel thumbnail — draft use only',
+    photoCredit: 'Public Instagram photo/reel thumbnail - draft use only',
     socialLabel: 'Social',
     socialMenu: {
       instagram: 'Latest bakes / DM catering',
@@ -41,8 +46,8 @@ const copy = {
     nav: { menu: 'Menu', visit: 'Visit', catering: 'Catering', language: 'Language' },
     hero: {
       eyebrow: 'Demo concept • Sheung Wan bakery',
-      title: 'Fresh brioche pineapple buns in Sheung Wan',
-      subhead: 'A warm, modern landing page concept for Pineapple Bakery 鳳梨餅家 — highlighting signature pineapple buns, nitro milk tea, small-batch bakes, location, and Instagram DM catering enquiries.',
+      title: 'Fresh pineapple buns in Sheung Wan',
+      subhead: 'A warm demo for signature buns, nitro milk tea, visit info, and Instagram DM catering enquiries.',
       viewMenu: 'View Menu',
       dm: 'Instagram DM',
       trust: ['Public info only', 'Opening times need verification', 'No fake prices/contact info'],
@@ -62,8 +67,8 @@ const copy = {
     },
     products: [
       { title: 'Brioche Pineapple Bun', badge: 'Signature', text: 'A modern Hong Kong pineapple bun concept with a soft brioche-style crumb and golden crackly top. Price to be confirmed.' },
-      { title: 'Pineapple Bun with Butter', badge: 'Classic indulgence', text: 'Warm bun, cold butter, crisp sweet crust — a premium take on the beloved cha chaan teng favourite. Price to be confirmed.' },
-      { title: 'Nitro Milk Tea', badge: 'Drink pairing', text: 'Public snippets mention nitro milk tea — positioned here as the cool, creamy pairing for fresh bakes. Details to verify.' },
+      { title: 'Pineapple Bun with Butter', badge: 'Classic indulgence', text: 'Warm bun, cold butter, and a crisp sweet crust. Price to be confirmed.' },
+      { title: 'Nitro Milk Tea', badge: 'Drink pairing', text: 'Public snippets mention nitro milk tea as a cool, creamy pairing for fresh bakes. Details to verify.' },
       { title: 'Catering / Party Orders', badge: 'DM enquiry', text: 'For office treats, meetings, and small parties. Public Instagram snippet mentions DM for catering; no phone/WhatsApp invented.' }
     ],
     visit: {
@@ -72,8 +77,8 @@ const copy = {
       text: 'Public snippets found during research mention limited opening windows. Because this is not confirmed directly from an official website, the demo labels the schedule carefully and points customers to Instagram for current walk-in and batch-time updates.',
       link: 'Check latest Instagram updates',
       rows: [
-        ['Wed / Thu', '10:00–15:00', 'Public snippet — needs verification'],
-        ['Fri / Sat', '10:00–17:00', 'Public snippet — needs verification'],
+        ['Wed / Thu', '10:00-15:00', 'Public snippet - needs verification'],
+        ['Fri / Sat', '10:00-17:00', 'Public snippet - needs verification'],
         ['Other days', 'Check IG', 'Latest opening / sold-out status may vary']
       ]
     },
@@ -83,7 +88,7 @@ const copy = {
     location: {
       kicker: 'Location',
       title: 'Shop 2, G/F, 87 Wing Lok Street, Sheung Wan',
-      text: 'Near Sheung Wan — convenient for Central/Sheung Wan office workers looking for a quick bakery stop or boxed treats.',
+      text: 'Near Sheung Wan, convenient for Central and Sheung Wan office workers looking for a quick bakery stop or boxed treats.',
       link: 'Open Google Maps search',
       mapTitle: 'Map placeholder',
       mapText: 'Google Maps search link for the public address',
@@ -118,10 +123,10 @@ const copy = {
       privacyLink: 'Privacy',
       termsLink: 'Terms'
     },
-    footerDisclaimer: 'Demo concept only — not affiliated with Pineapple Bakery. Built from public snippets and public Instagram/social thumbnails for draft visualization; uncertain details and image usage rights must be verified before real outreach or launch.'
+    footerDisclaimer: 'Demo concept only, not affiliated with Pineapple Bakery. Built from public snippets and public Instagram/social thumbnails for draft visualization; uncertain details and image usage rights must be verified before real outreach or launch.'
   },
   zh: {
-    photoCredit: '公開 Instagram 相片／Reel 縮圖 — 只供草稿示意',
+    photoCredit: '公開 Instagram 相片／Reel 縮圖 - 只供草稿示意',
     socialLabel: '社交',
     socialMenu: {
       instagram: '最新出爐／DM 到會查詢',
@@ -131,8 +136,8 @@ const copy = {
     nav: { menu: '餐單', visit: '到訪', catering: '到會', language: '語言' },
     hero: {
       eyebrow: '網站示意 • 上環麵包店',
-      title: '上環新鮮出爐牛油菠蘿包',
-      subhead: '為 Pineapple Bakery 鳳梨餅家設計的溫暖現代 landing page 概念 — 集中展示招牌菠蘿包、氮氣奶茶、小批量烘焙、位置及 Instagram DM 到會查詢。',
+      title: '上環新鮮出爐菠蘿包',
+      subhead: '溫暖示意網站，集中展示招牌菠蘿包、氮氣奶茶、到訪資料及 Instagram DM 到會查詢。',
       viewMenu: '睇餐單',
       dm: 'Instagram DM',
       trust: ['只使用公開資料', '營業時間需要核實', '不虛構價錢／聯絡方式'],
@@ -162,8 +167,8 @@ const copy = {
       text: '資料搜集時找到的公開片段提及有限營業時段。由於不是官方網站直接確認，示意頁會清楚標示「需核實」，並引導客人到 Instagram 查看最新 Walk-in 及出爐時間。',
       link: '查看最新 Instagram 更新',
       rows: [
-        ['星期三／四', '10:00–15:00', '公開資料 — 需要核實'],
-        ['星期五／六', '10:00–17:00', '公開資料 — 需要核實'],
+        ['星期三／四', '10:00-15:00', '公開資料 - 需要核實'],
+        ['星期五／六', '10:00-17:00', '公開資料 - 需要核實'],
         ['其他日子', '查看 IG', '最新營業／售罄情況或有變動']
       ]
     },
@@ -208,21 +213,12 @@ const copy = {
       privacyLink: '私隱',
       termsLink: '條款'
     },
-    footerDisclaimer: '示意網站概念 — 非 Pineapple Bakery 官方或關聯網站。內容由公開資料及公開 Instagram／社交縮圖整理作草稿展示；未確定資料及圖片使用權必須在正式推廣或上線前核實。'
+    footerDisclaimer: '示意網站概念，非 Pineapple Bakery 官方或關聯網站。內容由公開資料及公開 Instagram／社交縮圖整理作草稿展示；未確定資料及圖片使用權必須在正式推廣或上線前核實。'
   }
 };
 
-function InstagramIcon({ size = 20 }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
-      <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="2" />
-      <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="2" />
-      <circle cx="17.5" cy="6.5" r="1.15" fill="currentColor" />
-    </svg>
-  );
-}
-
 function App() {
+  const rootRef = useRef(null);
   const [language, setLanguage] = useState(getInitialLanguage);
 
   const t = copy[language];
@@ -237,32 +233,39 @@ function App() {
     window.localStorage.setItem(languageStorageKey, language);
   }, [language]);
 
-  useEffect(() => {
-    const targets = document.querySelectorAll('.section > .section-kicker, .section > h2, .section > p, .section-heading, .product-card, .split > div, .schedule-card, .catering-card, .location > div, .map-card, .proof-grid a, .legal-card, details, footer');
+  useGSAP(() => {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) return;
 
-    if (!('IntersectionObserver' in window)) {
-      targets.forEach((el) => el.classList.add('is-visible'));
-      return undefined;
-    }
+    const heroTimeline = gsap.timeline({ defaults: { ease: 'power3.out' } });
+    heroTimeline
+      .from('.nav', { y: -18, opacity: 0, duration: 0.55 })
+      .from('.hero-copy .eyebrow, .hero-copy h1, .hero-copy .subhead, .hero-copy .cta-row', {
+        y: 28,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.08,
+      }, '-=0.2')
+      .from('.hero-card', { y: 38, opacity: 0, scale: 0.96, duration: 0.9 }, '-=0.55')
+      .from('.hero-bg-gallery .tile', { y: 24, opacity: 0, scale: 0.92, duration: 0.8, stagger: 0.08 }, '-=0.65');
 
-    targets.forEach((el, index) => {
-      el.classList.add('reveal-on-scroll');
-      el.style.setProperty('--reveal-delay', `${Math.min(index % 4, 3) * 70}ms`);
+    gsap.utils.toArray('[data-gsap-reveal]').forEach((section) => {
+      gsap.from(section.querySelectorAll('[data-reveal-child]'), {
+        y: 30,
+        opacity: 0,
+        duration: 0.72,
+        ease: 'power3.out',
+        stagger: 0.07,
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 78%',
+          toggleActions: 'play none none reverse',
+        },
+      });
     });
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-        } else if (entry.boundingClientRect.top > window.innerHeight * 0.9) {
-          entry.target.classList.remove('is-visible');
-        }
-      });
-    }, { threshold: 0.18, rootMargin: '0px 0px -8% 0px' });
-
-    targets.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, [language]);
+    gsap.from('.social-float', { x: 18, opacity: 0, duration: 0.65, ease: 'power3.out', delay: 0.45 });
+  }, { scope: rootRef, dependencies: [language], revertOnUpdate: true });
 
   const productMeta = useMemo(() => [
     { icon: <Croissant />, image: `${assetBase}social/official-brioche-pineapple-buns.jpg` },
@@ -274,7 +277,7 @@ function App() {
   const products = t.products.map((item, index) => ({ ...item, ...productMeta[index] }));
 
   return (
-    <main>
+    <main ref={rootRef}>
       <aside className="social-float" aria-label="Quick social links">
         <button className="social-trigger" aria-haspopup="true" aria-expanded="false">
           <span className="social-avatar" aria-hidden="true"><img src={`${assetBase}social/pineapple-bakery-instagram-icon.jpg`} alt="" /></span>
@@ -337,11 +340,6 @@ function App() {
               <a className="button primary" href="#menu">{t.hero.viewMenu}</a>
               <a className="button secondary" href={instagramUrl} target="_blank" rel="noreferrer"><Send size={18}/> {t.hero.dm}</a>
             </div>
-            <div className="trust-strip">
-              <span><ShieldCheck size={16}/> {t.hero.trust[0]}</span>
-              <span>{t.hero.trust[1]}</span>
-              <span>{t.hero.trust[2]}</span>
-            </div>
           </div>
           <div className="hero-card" aria-label={t.hero.cardLabel}>
             <figure className="hero-photo">
@@ -356,20 +354,19 @@ function App() {
         </div>
       </section>
 
-      <section className="section intro">
-        <p className="section-kicker">{t.intro.kicker}</p>
-        <h2>{t.intro.title}</h2>
-        <p>{t.intro.text}</p>
+      <section className="section intro" data-gsap-reveal>
+        <h2 data-reveal-child>{t.intro.title}</h2>
+        <p data-reveal-child>{t.intro.text}</p>
       </section>
 
-      <section className="section" id="menu">
-        <div className="section-heading">
+      <section className="section" id="menu" data-gsap-reveal>
+        <div className="section-heading" data-reveal-child>
           <p className="section-kicker">{t.menu.kicker}</p>
           <h2>{t.menu.title}</h2>
         </div>
         <div className="product-grid">
           {products.map((item) => (
-            <article className="product-card" id={item.dmAction ? 'catering' : undefined} key={item.title}>
+            <article className="product-card" id={item.dmAction ? 'catering' : undefined} key={item.title} data-reveal-child>
               <img className="product-photo" src={item.image} alt={`${item.title} photo from public Instagram source`} />
               <div className="product-body">
                 <div className="product-top">
@@ -391,62 +388,58 @@ function App() {
         </div>
       </section>
 
-      <section className="section split" id="visit">
-        <div>
-          <p className="section-kicker">{t.visit.kicker}</p>
+      <section className="section split" id="visit" data-gsap-reveal>
+        <div data-reveal-child>
           <h2>{t.visit.title}</h2>
           <p>{t.visit.text}</p>
           <a className="text-link" href={instagramUrl} target="_blank" rel="noreferrer">{t.visit.link} <ExternalLink size={15}/></a>
         </div>
-        <div className="schedule-card">
+        <div className="schedule-card" data-reveal-child>
           {t.visit.rows.map((row, index) => (
             <div className={`schedule-row ${index === 2 ? 'muted' : ''}`} key={row[0]}><span>{row[0]}</span><strong>{row[1]}</strong><small>{row[2]}</small></div>
           ))}
         </div>
       </section>
 
-      <section className="section location">
-        <div>
-          <p className="section-kicker">{t.location.kicker}</p>
+      <section className="section location" data-gsap-reveal>
+        <div data-reveal-child>
           <h2>{t.location.title}</h2>
           <p>{t.location.text}</p>
           <a className="text-link" href={mapsUrl} target="_blank" rel="noreferrer"><MapPin size={16}/> {t.location.link}</a>
         </div>
-        <a className="map-card" href={mapsUrl} target="_blank" rel="noreferrer" aria-label={t.location.mapLabel}>
+        <a className="map-card" href={mapsUrl} target="_blank" rel="noreferrer" aria-label={t.location.mapLabel} data-reveal-child>
           <MapPin size={36}/>
           <strong>{t.location.mapTitle}</strong>
           <span>{t.location.mapText}</span>
         </a>
       </section>
 
-      <section className="section proof">
-        <div className="section-heading">
+      <section className="section proof" data-gsap-reveal>
+        <div className="section-heading" data-reveal-child>
           <p className="section-kicker">{t.proof.kicker}</p>
           <h2>{t.proof.title}</h2>
         </div>
         <div className="proof-grid">
-          <a href={openRiceUrl} target="_blank" rel="noreferrer"><strong>{t.proof.items[0][0]}</strong><span>{t.proof.items[0][1]}</span></a>
-          <a href={uFoodUrl} target="_blank" rel="noreferrer"><strong>{t.proof.items[1][0]}</strong><span>{t.proof.items[1][1]}</span></a>
-          <a href={instagramUrl} target="_blank" rel="noreferrer"><strong>{t.proof.items[2][0]}</strong><span>{t.proof.items[2][1]}</span></a>
+          <a href={openRiceUrl} target="_blank" rel="noreferrer" data-reveal-child><strong>{t.proof.items[0][0]}</strong><span>{t.proof.items[0][1]}</span></a>
+          <a href={uFoodUrl} target="_blank" rel="noreferrer" data-reveal-child><strong>{t.proof.items[1][0]}</strong><span>{t.proof.items[1][1]}</span></a>
+          <a href={instagramUrl} target="_blank" rel="noreferrer" data-reveal-child><strong>{t.proof.items[2][0]}</strong><span>{t.proof.items[2][1]}</span></a>
         </div>
       </section>
 
-      <section className="section faq">
-        <p className="section-kicker">{t.faq.kicker}</p>
-        <h2>{t.faq.title}</h2>
-        {t.faq.items.map((item) => <details key={item[0]}><summary>{item[0]}</summary><p>{item[1]}</p></details>)}
+      <section className="section faq" data-gsap-reveal>
+        <h2 data-reveal-child>{t.faq.title}</h2>
+        {t.faq.items.map((item) => <details key={item[0]} data-reveal-child><summary>{item[0]}</summary><p>{item[1]}</p></details>)}
       </section>
 
-      <section className="section legal-placeholders" id="privacy">
-        <p className="section-kicker">{t.legal.kicker}</p>
-        <h2>{t.legal.title}</h2>
+      <section className="section legal-placeholders" id="privacy" data-gsap-reveal>
+        <h2 data-reveal-child>{t.legal.title}</h2>
         <div className="legal-grid">
-          <article className="legal-card">
+          <article className="legal-card" data-reveal-child>
             <span className="legal-label">01</span>
             <h3>{t.legal.privacyTitle}</h3>
             <p>{t.legal.privacyText}</p>
           </article>
-          <article className="legal-card" id="terms">
+          <article className="legal-card" id="terms" data-reveal-child>
             <span className="legal-label">02</span>
             <h3>{t.legal.termsTitle}</h3>
             <p>{t.legal.termsText}</p>
@@ -463,7 +456,12 @@ function App() {
   );
 }
 
-createRoot(document.getElementById('root')).render(
+const rootElement = document.getElementById('root');
+if (!rootElement._pineappleRoot) {
+  rootElement._pineappleRoot = createRoot(rootElement);
+}
+
+rootElement._pineappleRoot.render(
   <React.StrictMode>
     <App />
   </React.StrictMode>
