@@ -4,6 +4,7 @@ import { Send, MapPin, Coffee, Croissant, Sparkles, ExternalLink, PartyPopper, S
 import './styles.css';
 
 const instagramUrl = 'https://www.instagram.com/pineapplebakeryhk/';
+const instagramDmUrl = 'https://ig.me/m/pineapplebakeryhk';
 const openRiceUrl = 'https://www.openrice.com/en/hongkong/r-pineapple-bakery-sheung-wan-hong-kong-style-bakery-r998564';
 const uFoodUrl = 'https://ufood.com.hk/restaurant/news/detail/20073149/香港菠蘿包推介-港式菠蘿包必試-冰火菠蘿皮-爆漿芝士餡';
 const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=Shop%202%2C%20G%2FF%2C%2087%20Wing%20Lok%20Street%2C%20Sheung%20Wan%2C%20Hong%20Kong';
@@ -268,13 +269,19 @@ function App() {
     document.body.removeChild(textArea);
   }
 
-  async function handleCopyCateringDm() {
+  async function handleDmEnquiry() {
+    const dmTab = window.open(instagramDmUrl, '_blank', 'noopener,noreferrer');
+
     try {
       await copyToClipboard(t.catering.dmDraft);
       setCopyStatus('copied');
       window.setTimeout(() => setCopyStatus('idle'), 3500);
     } catch {
       setCopyStatus('error');
+    }
+
+    if (!dmTab) {
+      window.location.href = instagramDmUrl;
     }
   }
 
@@ -420,14 +427,14 @@ function App() {
         </div>
         <div className="product-grid">
           {products.map((item) => (
-            <article className="product-card" key={item.title}>
+            <article className="product-card" id={item.dmAction ? 'catering' : undefined} key={item.title}>
               <img className="product-photo" src={item.image} alt={`${item.title} photo from public Instagram source`} />
               <div className="product-body">
                 <div className="product-top">
                   <div className="icon-pill">{item.icon}</div>
                   {item.dmAction ? (
-                    <button className="badge-action" type="button" onClick={handleCopyCateringDm} aria-label={`${t.catering.productCopyButton}: ${t.catering.dmDraft}`}>
-                      <Send size={14}/> {copyStatus === 'copied' ? t.catering.productCopied : t.catering.productCopyButton}
+                    <button className="badge-action" type="button" onClick={handleDmEnquiry} aria-label={`${t.catering.productCopyButton}: ${t.catering.dmDraft}`}>
+                      <MessageCircle size={14}/> {copyStatus === 'copied' ? t.catering.productCopied : t.catering.productCopyButton}
                     </button>
                   ) : (
                     <span>{item.badge}</span>
@@ -453,21 +460,6 @@ function App() {
           {t.visit.rows.map((row, index) => (
             <div className={`schedule-row ${index === 2 ? 'muted' : ''}`} key={row[0]}><span>{row[0]}</span><strong>{row[1]}</strong><small>{row[2]}</small></div>
           ))}
-        </div>
-      </section>
-
-      <section className="section catering" id="catering">
-        <div className="catering-card">
-          <p className="section-kicker">{t.catering.kicker}</p>
-          <h2>{t.catering.title}</h2>
-          <p>{t.catering.text}</p>
-          <div className="catering-actions">
-            <button className="button dark" type="button" onClick={handleCopyCateringDm}>
-              <Send size={18}/> {copyStatus === 'copied' ? t.catering.copied : copyStatus === 'error' ? t.catering.copyError : t.catering.copyButton}
-            </button>
-            <a className="button ghost-light" href={instagramUrl} target="_blank" rel="noreferrer"><InstagramIcon size={18}/> {t.catering.openInstagram}</a>
-          </div>
-          <p className="dm-preview" aria-live="polite"><strong>{t.catering.previewLabel}</strong> {t.catering.dmDraft}</p>
         </div>
       </section>
 
