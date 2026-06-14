@@ -5,6 +5,7 @@ import { useGSAP } from '@gsap/react';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { Send, MapPin, Coffee, Croissant, Sparkles, ExternalLink, PartyPopper, MessageCircle } from 'lucide-react';
 import './styles.css';
+import V2App from './v2.jsx';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -461,9 +462,13 @@ if (!rootElement._pineappleRoot) {
   rootElement._pineappleRoot = createRoot(rootElement);
 }
 
+const routePath = window.location.pathname.replace(/\/$/, '');
+const routeParams = new URLSearchParams(window.location.search);
+const useVersionTwo = routePath.endsWith('/v2') || routeParams.get('v') === '2' || routeParams.get('version') === '2';
+
 rootElement._pineappleRoot.render(
   <React.StrictMode>
-    <App />
+    {useVersionTwo ? <V2App /> : <App />}
   </React.StrictMode>
 );
 
