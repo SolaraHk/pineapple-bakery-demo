@@ -464,12 +464,12 @@ if (!rootElement._pineappleRoot) {
 
 const routePath = window.location.pathname.replace(/\/$/, '');
 const routeParams = new URLSearchParams(window.location.search);
-const useVersionTwo = routePath.endsWith('/v2') || routeParams.get('v') === '2' || routeParams.get('version') === '2';
+const useLegacyVersion = routePath.endsWith('/v1') || routeParams.get('v') === '1' || routeParams.get('version') === '1';
 
 rootElement._pineappleRoot.render(
   <React.StrictMode>
-    {useVersionTwo ? <V2App /> : <App />}
+    {useLegacyVersion ? <App /> : <V2App />}
   </React.StrictMode>
 );
 
-export default App;
+export default V2App;
