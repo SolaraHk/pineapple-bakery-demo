@@ -1,15 +1,187 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Send, MapPin, Coffee, Croissant, Sparkles, ExternalLink, PartyPopper, ShieldCheck, MessageCircle } from 'lucide-react';
 import './styles.css';
 
 const instagramUrl = 'https://www.instagram.com/pineapplebakeryhk/';
 const openRiceUrl = 'https://www.openrice.com/en/hongkong/r-pineapple-bakery-sheung-wan-hong-kong-style-bakery-r998564';
-const uFoodUrl = 'https://ufood.com.hk/restaurant/news/detail/20073149/香港菠蘿包推介-港式菠蘿包必試-冰火菠蘿油-酥脆菠蘿皮-爆漿芝士餡';
+const uFoodUrl = 'https://ufood.com.hk/restaurant/news/detail/20073149/香港菠蘿包推介-港式菠蘿包必試-冰火菠蘿皮-爆漿芝士餡';
 const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=Shop%202%2C%20G%2FF%2C%2087%20Wing%20Lok%20Street%2C%20Sheung%20Wan%2C%20Hong%20Kong';
-const photoCredit = 'Public Instagram photo/reel thumbnail — draft use only';
 const assetBase = import.meta.env.BASE_URL;
 const fontThemeKeys = ['fraunces', 'playfair', 'dm-serif', 'young-serif', 'instrument'];
+const languages = [
+  { code: 'en', label: 'EN', name: 'English' },
+  { code: 'zh', label: '繁', name: '繁體中文' }
+];
+
+const copy = {
+  en: {
+    photoCredit: 'Public Instagram photo/reel thumbnail — draft use only',
+    socialLabel: 'Social',
+    socialMenu: {
+      instagram: 'Latest bakes / DM catering',
+      openrice: 'Public directory listing',
+      map: 'Sheung Wan address search'
+    },
+    nav: { menu: 'Menu', visit: 'Visit', catering: 'Catering', language: 'Language' },
+    hero: {
+      eyebrow: 'Demo concept • Sheung Wan bakery',
+      title: 'Fresh brioche pineapple buns in Sheung Wan',
+      subhead: 'A warm, modern landing page concept for Pineapple Bakery 鳳梨餅家 — highlighting signature pineapple buns, nitro milk tea, small-batch bakes, location, and Instagram DM catering enquiries.',
+      viewMenu: 'View Menu',
+      dm: 'Instagram DM',
+      trust: ['Public info only', 'Opening times need verification', 'No fake prices/contact info'],
+      photoAlt: 'Fresh golden pineapple buns on a bakery tray',
+      cardLabel: 'Public Instagram photo of Pineapple Bakery buns',
+      noteTitle: 'Baked to sell out',
+      noteText: 'Check Instagram stories/posts for the latest batch and walk-in updates before visiting.'
+    },
+    intro: {
+      kicker: 'Why this page helps',
+      title: 'One clear home for menu, visit info, and catering.',
+      text: 'This speculative demo turns public snippets into a customer-friendly website structure. It avoids unverified claims while making the bakery easier to discover for nearby office workers, foodies, and group-order customers.'
+    },
+    menu: {
+      kicker: 'Signature products',
+      title: 'Golden buns, creamy tea, party-ready boxes.'
+    },
+    products: [
+      { title: 'Brioche Pineapple Bun', badge: 'Signature', text: 'A modern Hong Kong pineapple bun concept with a soft brioche-style crumb and golden crackly top. Price to be confirmed.' },
+      { title: 'Pineapple Bun with Butter', badge: 'Classic indulgence', text: 'Warm bun, cold butter, crisp sweet crust — a premium take on the beloved cha chaan teng favourite. Price to be confirmed.' },
+      { title: 'Nitro Milk Tea', badge: 'Drink pairing', text: 'Public snippets mention nitro milk tea — positioned here as the cool, creamy pairing for fresh bakes. Details to verify.' },
+      { title: 'Catering / Party Orders', badge: 'DM enquiry', text: 'For office treats, meetings, and small parties. Public Instagram snippet mentions DM for catering; no phone/WhatsApp invented.' }
+    ],
+    visit: {
+      kicker: 'Today’s bake / opening schedule',
+      title: 'Please verify on Instagram before visiting.',
+      text: 'Public snippets found during research mention limited opening windows. Because this is not confirmed directly from an official website, the demo labels the schedule carefully and points customers to Instagram for current walk-in and batch-time updates.',
+      link: 'Check latest Instagram updates',
+      rows: [
+        ['Wed / Thu', '10:00–15:00', 'Public snippet — needs verification'],
+        ['Fri / Sat', '10:00–17:00', 'Public snippet — needs verification'],
+        ['Other days', 'Check IG', 'Latest opening / sold-out status may vary']
+      ]
+    },
+    catering: {
+      kicker: 'Catering / group orders',
+      title: 'Bring a tray of warm pineapple buns to the office.',
+      text: 'For meetings, celebrations, and group treats, this demo directs customers to Instagram DM because public snippets mention “DM for catering.” No WhatsApp, phone number, or private contact information is invented.',
+      button: 'DM on Instagram for catering enquiries'
+    },
+    location: {
+      kicker: 'Location',
+      title: 'Shop 2, G/F, 87 Wing Lok Street, Sheung Wan',
+      text: 'Near Sheung Wan — convenient for Central/Sheung Wan office workers looking for a quick bakery stop or boxed treats.',
+      link: 'Open Google Maps search',
+      mapTitle: 'Map placeholder',
+      mapText: 'Google Maps search link for the public address',
+      mapLabel: 'Open map search for Pineapple Bakery address'
+    },
+    proof: {
+      kicker: 'Public social proof',
+      title: 'Evidence to verify, not exaggerate.',
+      items: [
+        ['OpenRice listing', 'Directory listing found for Pineapple Bakery in Sheung Wan.'],
+        ['U Food / media mention', 'Public media snippet around Hong Kong pineapple bun recommendations.'],
+        ['Instagram / social buzz', 'Public Instagram profile used for CTA and latest-update direction.']
+      ]
+    },
+    faq: {
+      kicker: 'FAQ',
+      title: 'Before you go',
+      items: [
+        ['Do I need to preorder?', 'This demo cannot confirm preorder rules. Please check Pineapple Bakery’s Instagram posts/stories or DM them before planning a larger order.'],
+        ['Can I walk in?', 'Public snippets suggest walk-in opening windows, but they need verification. Check Instagram for the latest batch and sold-out status before visiting.'],
+        ['Do you do catering?', 'Public Instagram snippet mentions DM for catering. This demo links to Instagram DM and does not invent any other contact channel.'],
+        ['Where are you located?', 'Public directory snippets show Shop 2, G/F, 87 Wing Lok Street, Sheung Wan, Hong Kong. Please verify on Instagram or map listings before visiting.']
+      ]
+    },
+    footerDisclaimer: 'Demo concept only — not affiliated with Pineapple Bakery. Built from public snippets and public Instagram/social thumbnails for draft visualization; uncertain details and image usage rights must be verified before real outreach or launch.'
+  },
+  zh: {
+    photoCredit: '公開 Instagram 相片／Reel 縮圖 — 只供草稿示意',
+    socialLabel: '社交',
+    socialMenu: {
+      instagram: '最新出爐／DM 到會查詢',
+      openrice: '公開餐廳資料',
+      map: '上環地址搜尋'
+    },
+    nav: { menu: '餐單', visit: '到訪', catering: '到會', language: '語言' },
+    hero: {
+      eyebrow: '網站示意 • 上環麵包店',
+      title: '上環新鮮出爐牛油菠蘿包',
+      subhead: '為 Pineapple Bakery 鳳梨餅家設計的溫暖現代 landing page 概念 — 集中展示招牌菠蘿包、氮氣奶茶、小批量烘焙、位置及 Instagram DM 到會查詢。',
+      viewMenu: '睇餐單',
+      dm: 'Instagram DM',
+      trust: ['只使用公開資料', '營業時間需要核實', '不虛構價錢／聯絡方式'],
+      photoAlt: '焗盤上的金黃菠蘿包',
+      cardLabel: 'Pineapple Bakery 菠蘿包公開 Instagram 相片',
+      noteTitle: '每日新鮮出爐，售完即止',
+      noteText: '到訪前請先查看 Instagram story／post，確認最新出爐批次、Walk-in 及售罄情況。'
+    },
+    intro: {
+      kicker: '網站作用',
+      title: '餐單、到訪資料、到會查詢，一頁睇晒。',
+      text: '這個示意網站把公開資料整理成顧客容易理解的結構；避免未核實聲稱，同時令附近上班族、食客及團體訂購客人更容易找到店舖資訊。'
+    },
+    menu: {
+      kicker: '招牌產品',
+      title: '金黃菠蘿包、香滑奶茶、派對分享盒。'
+    },
+    products: [
+      { title: 'Brioche 菠蘿包', badge: '招牌', text: '港式菠蘿包的現代版本：鬆軟 brioche 口感配金黃酥脆菠蘿皮。價錢有待確認。' },
+      { title: '菠蘿油', badge: '經典滋味', text: '熱辣辣菠蘿包夾凍牛油，酥皮香甜，是茶記經典的升級演繹。價錢有待確認。' },
+      { title: '氮氣奶茶', badge: '飲品配搭', text: '公開資料曾提及氮氣奶茶；此處定位為配搭新鮮烘焙的冰涼香滑飲品。詳情需核實。' },
+      { title: '到會／派對訂單', badge: 'DM 查詢', text: '適合辦公室小食、會議及小型派對。公開 Instagram 資料提及可 DM 到會；沒有虛構電話或 WhatsApp。' }
+    ],
+    visit: {
+      kicker: '今日出爐／營業時間',
+      title: '到訪前請先在 Instagram 核實。',
+      text: '資料搜集時找到的公開片段提及有限營業時段。由於不是官方網站直接確認，示意頁會清楚標示「需核實」，並引導客人到 Instagram 查看最新 Walk-in 及出爐時間。',
+      link: '查看最新 Instagram 更新',
+      rows: [
+        ['星期三／四', '10:00–15:00', '公開資料 — 需要核實'],
+        ['星期五／六', '10:00–17:00', '公開資料 — 需要核實'],
+        ['其他日子', '查看 IG', '最新營業／售罄情況或有變動']
+      ]
+    },
+    catering: {
+      kicker: '到會／團體訂購',
+      title: '把一盤熱辣辣菠蘿包帶到辦公室。',
+      text: '會議、慶祝、團體小食都可引導至 Instagram DM 查詢；因公開資料提及「DM for catering」。本示意頁不虛構 WhatsApp、電話或私人聯絡資料。',
+      button: 'Instagram DM 到會查詢'
+    },
+    location: {
+      kicker: '位置',
+      title: '香港上環永樂街87號地下2號舖',
+      text: '鄰近上環，方便中上環上班族快速購買新鮮麵包或辦公室分享盒。',
+      link: '開啟 Google Maps 搜尋',
+      mapTitle: '地圖位置',
+      mapText: '使用公開地址開啟 Google Maps 搜尋',
+      mapLabel: '開啟 Pineapple Bakery 地址地圖搜尋'
+    },
+    proof: {
+      kicker: '公開佐證',
+      title: '如實展示資料，避免誇大。',
+      items: [
+        ['OpenRice 資料', '找到 Pineapple Bakery 上環店的公開餐廳資料。'],
+        ['U Food／媒體提及', '關於香港菠蘿包推介的公開媒體資料。'],
+        ['Instagram／社交熱度', '以公開 Instagram profile 作為 CTA 及最新資訊方向。']
+      ]
+    },
+    faq: {
+      kicker: '常見問題',
+      title: '到訪前須知',
+      items: [
+        ['需要預訂嗎？', '此示意頁不能確認預訂規則。大量訂購前，請查看 Pineapple Bakery Instagram post／story 或直接 DM 查詢。'],
+        ['可以 Walk-in 嗎？', '公開資料顯示可能有 Walk-in 時段，但需要核實。到訪前請先查看 Instagram 最新批次及售罄狀態。'],
+        ['有到會服務嗎？', '公開 Instagram 資料提及可 DM 到會。本示意頁只連到 Instagram DM，沒有虛構其他聯絡方式。'],
+        ['地址在哪裡？', '公開資料顯示為香港上環永樂街87號地下2號舖。到訪前請在 Instagram 或地圖資料再作確認。']
+      ]
+    },
+    footerDisclaimer: '示意網站概念 — 非 Pineapple Bakery 官方或關聯網站。內容由公開資料及公開 Instagram／社交縮圖整理作草稿展示；未確定資料及圖片使用權必須在正式推廣或上線前核實。'
+  }
+};
 
 function InstagramIcon({ size = 20 }) {
   return (
@@ -21,17 +193,29 @@ function InstagramIcon({ size = 20 }) {
   );
 }
 
-
 function App() {
+  const [language, setLanguage] = useState(() => {
+    const requestedLanguage = new URLSearchParams(window.location.search).get('lang');
+    return requestedLanguage === 'zh' ? 'zh' : 'en';
+  });
+
+  const t = copy[language];
+
   useEffect(() => {
     const requestedFontTheme = new URLSearchParams(window.location.search).get('font');
     document.documentElement.dataset.fontTheme = fontThemeKeys.includes(requestedFontTheme) ? requestedFontTheme : 'young-serif';
+  }, []);
 
+  useEffect(() => {
+    document.documentElement.lang = language === 'zh' ? 'zh-Hant-HK' : 'en';
+  }, [language]);
+
+  useEffect(() => {
     const targets = document.querySelectorAll('.section > .section-kicker, .section > h2, .section > p, .section-heading, .product-card, .split > div, .schedule-card, .catering-card, .location > div, .map-card, .proof-grid a, details, footer');
 
     if (!('IntersectionObserver' in window)) {
       targets.forEach((el) => el.classList.add('is-visible'));
-      return;
+      return undefined;
     }
 
     targets.forEach((el, index) => {
@@ -51,34 +235,36 @@ function App() {
 
     targets.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
-  }, []);
+  }, [language]);
 
-  const products = [
-    { icon: <Croissant />, title: 'Brioche Pineapple Bun', badge: 'Signature', image: `${assetBase}social/official-brioche-pineapple-buns.jpg`, text: 'A modern Hong Kong pineapple bun concept with a soft brioche-style crumb and golden crackly top. Price to be confirmed.' },
-    { icon: <Sparkles />, title: 'Pineapple Bun with Butter', badge: 'Classic indulgence', image: `${assetBase}social/food-reel-pineapple-bun.jpg`, text: 'Warm bun, cold butter, crisp sweet crust — a premium take on the beloved cha chaan teng favourite. Price to be confirmed.' },
-    { icon: <Coffee />, title: 'Nitro Milk Tea', badge: 'Drink pairing', image: `${assetBase}social/social-reel-milk-tea.jpg`, text: 'Public snippets mention nitro milk tea — positioned here as the cool, creamy pairing for fresh bakes. Details to verify.' },
-    { icon: <PartyPopper />, title: 'Catering / Party Orders', badge: 'DM enquiry', image: `${assetBase}social/social-reel-bun-closeup.jpg`, text: 'For office treats, meetings, and small parties. Public Instagram snippet mentions DM for catering; no phone/WhatsApp invented.' }
-  ];
+  const productMeta = useMemo(() => [
+    { icon: <Croissant />, image: `${assetBase}social/official-brioche-pineapple-buns.jpg` },
+    { icon: <Sparkles />, image: `${assetBase}social/food-reel-pineapple-bun.jpg` },
+    { icon: <Coffee />, image: `${assetBase}social/social-reel-milk-tea.jpg` },
+    { icon: <PartyPopper />, image: `${assetBase}social/social-reel-bun-closeup.jpg` }
+  ], []);
+
+  const products = t.products.map((item, index) => ({ ...item, ...productMeta[index] }));
 
   return (
     <main>
       <aside className="social-float" aria-label="Quick social links">
         <button className="social-trigger" aria-haspopup="true" aria-expanded="false">
           <InstagramIcon size={20}/>
-          <span>Social</span>
+          <span>{t.socialLabel}</span>
         </button>
         <div className="social-menu" role="menu">
           <a role="menuitem" href={instagramUrl} target="_blank" rel="noreferrer">
             <InstagramIcon size={17}/>
-            <span><strong>Instagram</strong><small>Latest bakes / DM catering</small></span>
+            <span><strong>Instagram</strong><small>{t.socialMenu.instagram}</small></span>
           </a>
           <a role="menuitem" href={openRiceUrl} target="_blank" rel="noreferrer">
             <MessageCircle size={17}/>
-            <span><strong>OpenRice</strong><small>Public directory listing</small></span>
+            <span><strong>OpenRice</strong><small>{t.socialMenu.openrice}</small></span>
           </a>
           <a role="menuitem" href={mapsUrl} target="_blank" rel="noreferrer">
             <MapPin size={17}/>
-            <span><strong>Map</strong><small>Sheung Wan address search</small></span>
+            <span><strong>Map</strong><small>{t.socialMenu.map}</small></span>
           </a>
         </div>
       </aside>
@@ -86,11 +272,26 @@ function App() {
       <section className="hero" id="top">
         <nav className="nav" aria-label="Primary navigation">
           <a href="#top" className="brand"><span className="brand-icon"><img src={`${assetBase}social/pineapple-bakery-instagram-icon.jpg`} alt="Pineapple Bakery Instagram profile icon" /></span><span>鳳梨</span> Pineapple Bakery</a>
-          <div className="nav-links">
-            <a href="#menu">Menu</a>
-            <a href="#visit">Visit</a>
-            <a href="#catering">Catering</a>
-            <a href={instagramUrl} target="_blank" rel="noreferrer">Instagram</a>
+          <div className="nav-actions">
+            <div className="nav-links">
+              <a href="#menu">{t.nav.menu}</a>
+              <a href="#visit">{t.nav.visit}</a>
+              <a href="#catering">{t.nav.catering}</a>
+              <a href={instagramUrl} target="_blank" rel="noreferrer">Instagram</a>
+            </div>
+            <div className="language-switch" aria-label={t.nav.language}>
+              {languages.map((item) => (
+                <button
+                  key={item.code}
+                  type="button"
+                  className={language === item.code ? 'active' : ''}
+                  aria-pressed={language === item.code}
+                  onClick={() => setLanguage(item.code)}
+                >
+                  <span>{item.label}</span>
+                </button>
+              ))}
+            </div>
           </div>
         </nav>
 
@@ -102,42 +303,42 @@ function App() {
 
         <div className="hero-grid">
           <div className="hero-copy">
-            <p className="eyebrow">Demo concept • Sheung Wan bakery</p>
-            <h1>Fresh brioche pineapple buns in Sheung Wan</h1>
-            <p className="subhead">A warm, modern landing page concept for Pineapple Bakery 鳳梨餅家 — highlighting signature pineapple buns, nitro milk tea, small-batch bakes, location, and Instagram DM catering enquiries.</p>
+            <p className="eyebrow">{t.hero.eyebrow}</p>
+            <h1>{t.hero.title}</h1>
+            <p className="subhead">{t.hero.subhead}</p>
             <div className="cta-row">
-              <a className="button primary" href="#menu">View Menu</a>
-              <a className="button secondary" href={instagramUrl} target="_blank" rel="noreferrer"><Send size={18}/> Instagram DM</a>
+              <a className="button primary" href="#menu">{t.hero.viewMenu}</a>
+              <a className="button secondary" href={instagramUrl} target="_blank" rel="noreferrer"><Send size={18}/> {t.hero.dm}</a>
             </div>
             <div className="trust-strip">
-              <span><ShieldCheck size={16}/> Public info only</span>
-              <span>Opening times need verification</span>
-              <span>No fake prices/contact info</span>
+              <span><ShieldCheck size={16}/> {t.hero.trust[0]}</span>
+              <span>{t.hero.trust[1]}</span>
+              <span>{t.hero.trust[2]}</span>
             </div>
           </div>
-          <div className="hero-card" aria-label="Public Instagram photo of Pineapple Bakery buns">
+          <div className="hero-card" aria-label={t.hero.cardLabel}>
             <figure className="hero-photo">
-              <img src={`${assetBase}social/official-brioche-pineapple-buns.jpg`} alt="Fresh golden pineapple buns on a bakery tray" />
-              <figcaption>{photoCredit}</figcaption>
+              <img src={`${assetBase}social/official-brioche-pineapple-buns.jpg`} alt={t.hero.photoAlt} />
+              <figcaption>{t.photoCredit}</figcaption>
             </figure>
             <div className="hero-note">
-              <strong>Baked to sell out</strong>
-              <p>Check Instagram stories/posts for the latest batch and walk-in updates before visiting.</p>
+              <strong>{t.hero.noteTitle}</strong>
+              <p>{t.hero.noteText}</p>
             </div>
           </div>
         </div>
       </section>
 
       <section className="section intro">
-        <p className="section-kicker">Why this page helps</p>
-        <h2>One clear home for menu, visit info, and catering.</h2>
-        <p>This speculative demo turns public snippets into a customer-friendly website structure. It avoids unverified claims while making the bakery easier to discover for nearby office workers, foodies, and group-order customers.</p>
+        <p className="section-kicker">{t.intro.kicker}</p>
+        <h2>{t.intro.title}</h2>
+        <p>{t.intro.text}</p>
       </section>
 
       <section className="section" id="menu">
         <div className="section-heading">
-          <p className="section-kicker">Signature products</p>
-          <h2>Golden buns, creamy tea, party-ready boxes.</h2>
+          <p className="section-kicker">{t.menu.kicker}</p>
+          <h2>{t.menu.title}</h2>
         </div>
         <div className="product-grid">
           {products.map((item) => (
@@ -147,7 +348,7 @@ function App() {
                 <div className="product-top"><div className="icon-pill">{item.icon}</div><span>{item.badge}</span></div>
                 <h3>{item.title}</h3>
                 <p>{item.text}</p>
-                <small>{photoCredit}</small>
+                <small>{t.photoCredit}</small>
               </div>
             </article>
           ))}
@@ -156,66 +357,63 @@ function App() {
 
       <section className="section split" id="visit">
         <div>
-          <p className="section-kicker">Today’s bake / opening schedule</p>
-          <h2>Please verify on Instagram before visiting.</h2>
-          <p>Public snippets found during research mention limited opening windows. Because this is not confirmed directly from an official website, the demo labels the schedule carefully and points customers to Instagram for current walk-in and batch-time updates.</p>
-          <a className="text-link" href={instagramUrl} target="_blank" rel="noreferrer">Check latest Instagram updates <ExternalLink size={15}/></a>
+          <p className="section-kicker">{t.visit.kicker}</p>
+          <h2>{t.visit.title}</h2>
+          <p>{t.visit.text}</p>
+          <a className="text-link" href={instagramUrl} target="_blank" rel="noreferrer">{t.visit.link} <ExternalLink size={15}/></a>
         </div>
         <div className="schedule-card">
-          <div className="schedule-row"><span>Wed / Thu</span><strong>10:00–15:00</strong><small>Public snippet — needs verification</small></div>
-          <div className="schedule-row"><span>Fri / Sat</span><strong>10:00–17:00</strong><small>Public snippet — needs verification</small></div>
-          <div className="schedule-row muted"><span>Other days</span><strong>Check IG</strong><small>Latest opening / sold-out status may vary</small></div>
+          {t.visit.rows.map((row, index) => (
+            <div className={`schedule-row ${index === 2 ? 'muted' : ''}`} key={row[0]}><span>{row[0]}</span><strong>{row[1]}</strong><small>{row[2]}</small></div>
+          ))}
         </div>
       </section>
 
       <section className="section catering" id="catering">
         <div className="catering-card">
-          <p className="section-kicker">Catering / group orders</p>
-          <h2>Bring a tray of warm pineapple buns to the office.</h2>
-          <p>For meetings, celebrations, and group treats, this demo directs customers to Instagram DM because public snippets mention “DM for catering.” No WhatsApp, phone number, or private contact information is invented.</p>
-          <a className="button dark" href={instagramUrl} target="_blank" rel="noreferrer"><Send size={18}/> DM on Instagram for catering enquiries</a>
+          <p className="section-kicker">{t.catering.kicker}</p>
+          <h2>{t.catering.title}</h2>
+          <p>{t.catering.text}</p>
+          <a className="button dark" href={instagramUrl} target="_blank" rel="noreferrer"><Send size={18}/> {t.catering.button}</a>
         </div>
       </section>
 
       <section className="section location">
         <div>
-          <p className="section-kicker">Location</p>
-          <h2>Shop 2, G/F, 87 Wing Lok Street, Sheung Wan</h2>
-          <p>Near Sheung Wan — convenient for Central/Sheung Wan office workers looking for a quick bakery stop or boxed treats.</p>
-          <a className="text-link" href={mapsUrl} target="_blank" rel="noreferrer"><MapPin size={16}/> Open Google Maps search</a>
+          <p className="section-kicker">{t.location.kicker}</p>
+          <h2>{t.location.title}</h2>
+          <p>{t.location.text}</p>
+          <a className="text-link" href={mapsUrl} target="_blank" rel="noreferrer"><MapPin size={16}/> {t.location.link}</a>
         </div>
-        <a className="map-card" href={mapsUrl} target="_blank" rel="noreferrer" aria-label="Open map search for Pineapple Bakery address">
+        <a className="map-card" href={mapsUrl} target="_blank" rel="noreferrer" aria-label={t.location.mapLabel}>
           <MapPin size={36}/>
-          <strong>Map placeholder</strong>
-          <span>Google Maps search link for the public address</span>
+          <strong>{t.location.mapTitle}</strong>
+          <span>{t.location.mapText}</span>
         </a>
       </section>
 
       <section className="section proof">
         <div className="section-heading">
-          <p className="section-kicker">Public social proof</p>
-          <h2>Evidence to verify, not exaggerate.</h2>
+          <p className="section-kicker">{t.proof.kicker}</p>
+          <h2>{t.proof.title}</h2>
         </div>
         <div className="proof-grid">
-          <a href={openRiceUrl} target="_blank" rel="noreferrer"><strong>OpenRice listing</strong><span>Directory listing found for Pineapple Bakery in Sheung Wan.</span></a>
-          <a href={uFoodUrl} target="_blank" rel="noreferrer"><strong>U Food / media mention</strong><span>Public media snippet around Hong Kong pineapple bun recommendations.</span></a>
-          <a href={instagramUrl} target="_blank" rel="noreferrer"><strong>Instagram / social buzz</strong><span>Public Instagram profile used for CTA and latest-update direction.</span></a>
+          <a href={openRiceUrl} target="_blank" rel="noreferrer"><strong>{t.proof.items[0][0]}</strong><span>{t.proof.items[0][1]}</span></a>
+          <a href={uFoodUrl} target="_blank" rel="noreferrer"><strong>{t.proof.items[1][0]}</strong><span>{t.proof.items[1][1]}</span></a>
+          <a href={instagramUrl} target="_blank" rel="noreferrer"><strong>{t.proof.items[2][0]}</strong><span>{t.proof.items[2][1]}</span></a>
         </div>
       </section>
 
       <section className="section faq">
-        <p className="section-kicker">FAQ</p>
-        <h2>Before you go</h2>
-        <details><summary>Do I need to preorder?</summary><p>This demo cannot confirm preorder rules. Please check Pineapple Bakery’s Instagram posts/stories or DM them before planning a larger order.</p></details>
-        <details><summary>Can I walk in?</summary><p>Public snippets suggest walk-in opening windows, but they need verification. Check Instagram for the latest batch and sold-out status before visiting.</p></details>
-        <details><summary>Do you do catering?</summary><p>Public Instagram snippet mentions DM for catering. This demo links to Instagram DM and does not invent any other contact channel.</p></details>
-        <details><summary>Where are you located?</summary><p>Public directory snippets show Shop 2, G/F, 87 Wing Lok Street, Sheung Wan, Hong Kong. Please verify on Instagram or map listings before visiting.</p></details>
+        <p className="section-kicker">{t.faq.kicker}</p>
+        <h2>{t.faq.title}</h2>
+        {t.faq.items.map((item) => <details key={item[0]}><summary>{item[0]}</summary><p>{item[1]}</p></details>)}
       </section>
 
       <footer>
-        <div><strong>Pineapple Bakery 鳳梨餅家</strong><p>Shop 2, G/F, 87 Wing Lok Street, Sheung Wan, Hong Kong</p></div>
+        <div><strong>Pineapple Bakery 鳳梨餅家</strong><p>{t.location.title}</p></div>
         <div className="footer-links"><a href={instagramUrl} target="_blank" rel="noreferrer">Instagram</a><a href={mapsUrl} target="_blank" rel="noreferrer">Map</a></div>
-        <p className="disclaimer">Demo concept only — not affiliated with Pineapple Bakery. Built from public snippets and public Instagram/social thumbnails for draft visualization; uncertain details and image usage rights must be verified before real outreach or launch.</p>
+        <p className="disclaimer">{t.footerDisclaimer}</p>
       </footer>
     </main>
   );
