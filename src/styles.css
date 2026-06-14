@@ -87,7 +87,7 @@ h2 { font-size: clamp(1.85rem, 3.1vw, 2.85rem); }
 h3 { font-size: 1.32rem; }
 .subhead { color: #553722; font-size: clamp(1.02rem, 1.45vw, 1.18rem); line-height: 1.7; max-width: 650px; margin: 24px 0; padding-left: 18px; border-left: 4px solid rgba(207,125,18,.55); background: linear-gradient(90deg, rgba(255,253,248,.74), rgba(255,248,232,.20), rgba(255,248,232,0)); text-shadow: 0 1px 12px rgba(255,253,248,.95); }
 .cta-row { display: flex; flex-wrap: wrap; gap: 14px; margin: 28px 0 24px; }
-.button { border: 0; border-radius: 999px; padding: 15px 22px; font-weight: 900; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 9px; transition: transform .2s ease, box-shadow .2s ease; }
+.button { border: 0; border-radius: 999px; padding: 15px 22px; font: inherit; font-weight: 900; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 9px; transition: transform .2s ease, box-shadow .2s ease; cursor: pointer; }
 .button:hover { transform: translateY(-2px); }
 .primary { background: var(--ink); color: white; box-shadow: 0 14px 34px rgba(44,23,11,.25); }
 .secondary { background: rgba(255,255,255,.76); border: 1px solid var(--line); color: var(--ink); }
@@ -134,6 +134,10 @@ h3 { font-size: 1.32rem; }
 .catering-card { padding: clamp(28px, 6vw, 58px); color: white; background: radial-gradient(circle at 82% 20%, rgba(242,182,50,.55), transparent 22rem), linear-gradient(135deg, #26462e, #112719); }
 .catering-card .section-kicker, .catering-card p { color: #ffe6a2; }
 .catering-card h2 { max-width: 780px; }
+.catering-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 24px 0 18px; }
+.ghost-light { color: #fff8e8; border: 1px solid rgba(255,248,232,.52); background: rgba(255,248,232,.13); box-shadow: inset 0 1px 0 rgba(255,255,255,.14); }
+.dm-preview { max-width: 760px; padding: 16px 18px; border: 1px dashed rgba(255,230,162,.55); border-radius: 20px; background: rgba(255,248,232,.10); }
+.dm-preview strong { color: #fff8e8; }
 
 .map-card { min-height: 290px; display: grid; place-items: center; align-content: center; gap: 12px; text-decoration: none; background: linear-gradient(135deg, #fff1bd, #fffdf8); text-align: center; padding: 28px; color: var(--deep-gold); }
 .map-card strong { color: var(--ink); font-size: 1.7rem; }

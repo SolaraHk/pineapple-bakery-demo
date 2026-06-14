@@ -80,7 +80,12 @@ const copy = {
       kicker: 'Catering / group orders',
       title: 'Bring a tray of warm pineapple buns to the office.',
       text: 'For meetings, celebrations, and group treats, this demo directs customers to Instagram DM because public snippets mention “DM for catering.” No WhatsApp, phone number, or private contact information is invented.',
-      button: 'DM on Instagram for catering enquiries'
+      copyButton: 'Copy catering DM text',
+      copied: 'Copied — paste into Instagram DM',
+      copyError: 'Copy failed — select the text below',
+      openInstagram: 'Open Instagram profile',
+      previewLabel: 'Suggested DM:',
+      dmDraft: 'Hi Pineapple Bakery, I’d like to ask about catering / group orders. Could you please share the available options, minimum order, lead time, and pickup details? Thank you!'
     },
     location: {
       kicker: 'Location',
@@ -173,7 +178,12 @@ const copy = {
       kicker: '到會／團體訂購',
       title: '把一盤熱辣辣菠蘿包帶到辦公室。',
       text: '會議、慶祝、團體小食都可引導至 Instagram DM 查詢；因公開資料提及「DM for catering」。本示意頁不虛構 WhatsApp、電話或私人聯絡資料。',
-      button: 'Instagram DM 到會查詢'
+      copyButton: '複製到會 DM 文字',
+      copied: '已複製 — 可貼到 Instagram DM',
+      copyError: '複製失敗 — 請選取下方文字',
+      openInstagram: '開啟 Instagram profile',
+      previewLabel: '建議 DM：',
+      dmDraft: '你好 Pineapple Bakery，我想查詢到會／團體訂購。請問有咩選擇、最低訂購量、需要幾多日前預訂，以及取貨安排？謝謝！'
     },
     location: {
       kicker: '位置',
@@ -229,8 +239,40 @@ function InstagramIcon({ size = 20 }) {
 
 function App() {
   const [language, setLanguage] = useState(getInitialLanguage);
+  const [copyStatus, setCopyStatus] = useState('idle');
 
   const t = copy[language];
+
+  async function copyToClipboard(text) {
+    if (navigator.clipboard?.writeText) {
+      try {
+        await navigator.clipboard.writeText(text);
+        return;
+      } catch {
+        // Fall back to the temporary textarea method below.
+      }
+    }
+
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.setAttribute('readonly', '');
+    textArea.style.position = 'fixed';
+    textArea.style.top = '-9999px';
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textArea);
+  }
+
+  async function handleCopyCateringDm() {
+    try {
+      await copyToClipboard(t.catering.dmDraft);
+      setCopyStatus('copied');
+      window.setTimeout(() => setCopyStatus('idle'), 3500);
+    } catch {
+      setCopyStatus('error');
+    }
+  }
 
   useEffect(() => {
     const requestedFontTheme = new URLSearchParams(window.location.search).get('font');
@@ -406,7 +448,13 @@ function App() {
           <p className="section-kicker">{t.catering.kicker}</p>
           <h2>{t.catering.title}</h2>
           <p>{t.catering.text}</p>
-          <a className="button dark" href={instagramUrl} target="_blank" rel="noreferrer"><Send size={18}/> {t.catering.button}</a>
+          <div className="catering-actions">
+            <button className="button dark" type="button" onClick={handleCopyCateringDm}>
+              <Send size={18}/> {copyStatus === 'copied' ? t.catering.copied : copyStatus === 'error' ? t.catering.copyError : t.catering.copyButton}
+            </button>
+            <a className="button ghost-light" href={instagramUrl} target="_blank" rel="noreferrer"><InstagramIcon size={18}/> {t.catering.openInstagram}</a>
+          </div>
+          <p className="dm-preview" aria-live="polite"><strong>{t.catering.previewLabel}</strong> {t.catering.dmDraft}</p>
         </div>
       </section>
 
