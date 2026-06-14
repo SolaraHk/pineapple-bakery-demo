@@ -78,17 +78,7 @@ const copy = {
       ]
     },
     catering: {
-      kicker: 'Catering / group orders',
-      title: 'Bring a tray of warm pineapple buns to the office.',
-      text: 'For meetings, celebrations, and group treats, this demo directs customers to Instagram DM because public snippets mention “DM for catering.” No WhatsApp, phone number, or private contact information is invented.',
-      copyButton: 'Copy catering DM text',
-      copied: 'Copied — paste into Instagram DM',
-      copyError: 'Copy failed — select the text below',
-      productCopyButton: 'DM enquiry',
-      productCopied: 'DM enquiry copied',
-      openInstagram: 'Open Instagram profile',
-      previewLabel: 'Suggested DM:',
-      dmDraft: 'Hi Pineapple Bakery, I’d like to ask about catering / group orders. Could you please share the available options, minimum order, lead time, and pickup details? Thank you!'
+      productCopyButton: 'DM enquiry'
     },
     location: {
       kicker: 'Location',
@@ -178,17 +168,7 @@ const copy = {
       ]
     },
     catering: {
-      kicker: '到會／團體訂購',
-      title: '把一盤熱辣辣菠蘿包帶到辦公室。',
-      text: '會議、慶祝、團體小食都可引導至 Instagram DM 查詢；因公開資料提及「DM for catering」。本示意頁不虛構 WhatsApp、電話或私人聯絡資料。',
-      copyButton: '複製到會 DM 文字',
-      copied: '已複製 — 可貼到 Instagram DM',
-      copyError: '複製失敗 — 請選取下方文字',
-      productCopyButton: 'DM 查詢',
-      productCopied: 'DM 查詢已複製',
-      openInstagram: '開啟 Instagram profile',
-      previewLabel: '建議 DM：',
-      dmDraft: '你好 Pineapple Bakery，我想查詢到會／團體訂購。請問有咩選擇、最低訂購量、需要幾多日前預訂，以及取貨安排？謝謝！'
+      productCopyButton: 'DM 查詢'
     },
     location: {
       kicker: '位置',
