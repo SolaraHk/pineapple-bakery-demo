@@ -151,10 +151,12 @@ body[data-site-version='v2'] {
   position: relative;
   min-height: 650px;
   display: grid;
-  grid-template-columns: minmax(360px, .86fr) minmax(460px, 1.14fr);
+  grid-template-columns: minmax(520px, .48fr) minmax(520px, .52fr);
   align-items: stretch;
   border-bottom: 1px solid var(--line);
-  background: linear-gradient(90deg, rgba(253,243,222,.97) 0 45%, rgba(234,207,164,.5) 45% 100%);
+  background:
+    linear-gradient(90deg, rgba(255,247,229,.95) 0 34%, rgba(255,247,229,.74) 34% 52%, rgba(255,247,229,.05) 64%),
+    url('/pineapple-bakery-demo/social/front-page-background.jpg') right center / cover no-repeat;
   isolation: isolate;
 }
 .v2-hero::before {
@@ -163,13 +165,14 @@ body[data-site-version='v2'] {
   inset: 0;
   z-index: -1;
   background:
-    linear-gradient(90deg, rgba(255,250,238,.95) 0 35%, rgba(255,250,238,.58) 35% 54%, transparent 54%),
-    radial-gradient(circle at 76% 20%, rgba(255, 196, 72, .36), transparent 18rem),
-    repeating-linear-gradient(-9deg, rgba(42,29,20,.03) 0 1px, transparent 1px 7px);
+    radial-gradient(circle at 4% 8%, rgba(255,255,255,.8), transparent 22rem),
+    linear-gradient(0deg, rgba(54,30,11,.12), rgba(255,244,219,.04));
 }
 .v2-hero__copy {
   padding: clamp(46px, 7vw, 94px) clamp(24px, 6vw, 78px);
   align-self: center;
+  position: relative;
+  z-index: 2;
 }
 .v2-kicker {
   margin: 0 0 6px;
@@ -228,7 +231,7 @@ body[data-site-version='v2'] {
   position: relative;
   min-height: 620px;
   overflow: hidden;
-  display: grid;
+  display: none;
   place-items: end center;
 }
 .v2-hero__photo > img:first-child {
