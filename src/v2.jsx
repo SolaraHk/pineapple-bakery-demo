@@ -217,22 +217,85 @@ export default function V2App() {
   }, [language]);
 
   useGSAP(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    gsap.from('.v2-nav, .v2-hero__copy > *, .v2-hero__photo', {
-      y: 22,
-      opacity: 0,
-      duration: 0.72,
-      stagger: 0.07,
-      ease: 'power3.out'
-    });
-    gsap.utils.toArray('.v2-reveal').forEach((item) => {
-      gsap.from(item, {
-        y: 28,
-        duration: 0.68,
-        ease: 'power3.out',
-        scrollTrigger: { trigger: item, start: 'top 84%' }
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.__pineappleBakeryMotion = { enabled: !reduceMotion, triggers: 0 };
+    if (reduceMotion) return;
+
+    const defaults = { ease: 'power3.out', duration: 0.82 };
+
+    gsap.timeline({ defaults })
+      .from('.v2-nav', { y: -24, opacity: 0, duration: 0.62 })
+      .from('.v2-hero__copy > *', { y: 28, opacity: 0, stagger: 0.08 }, '-=0.28')
+      .from('.v2-hero__photo', { scale: 0.97, y: 36, opacity: 0 }, '-=0.42')
+      .from('.v2-hero__drink, .v2-stamp, .v2-paper-doodle', { y: 22, rotate: -3, opacity: 0, stagger: 0.08 }, '-=0.36');
+
+    const revealSection = (trigger, targets, vars = {}) => {
+      gsap.from(targets, {
+        y: 42,
+        opacity: 0,
+        stagger: 0.09,
+        ...defaults,
+        ...vars,
+        scrollTrigger: {
+          trigger,
+          start: 'top 78%',
+          toggleActions: 'play none none reverse',
+          ...vars.scrollTrigger
+        }
       });
+    };
+
+    revealSection('.v2-split', '.v2-section-title, .v2-product, .v2-menu-panel .v2-button, .v2-preorder h2, .v2-step, .v2-preorder .v2-button, .v2-preorder > .v2-doodle-logo', {
+      y: 34,
+      stagger: 0.055
     });
+
+    revealSection('.v2-story-grid', '.v2-award-card, .v2-copy-card, .v2-shop-photo', {
+      y: 0,
+      x: 36,
+      stagger: 0.11,
+      duration: 0.95,
+      scrollTrigger: { start: 'top 72%' }
+    });
+
+    revealSection('.v2-gallery', '.v2-gallery__head > *, .v2-gallery__grid img', {
+      y: 30,
+      stagger: 0.045
+    });
+
+    revealSection('.v2-footer', '.v2-footer__features > span, .v2-subscribe, .v2-disclaimer', {
+      y: 28,
+      stagger: 0.07,
+      scrollTrigger: { start: 'top 88%' }
+    });
+
+    gsap.to('.v2-hero__photo img:first-child', {
+      yPercent: -8,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.v2-hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 0.8,
+        invalidateOnRefresh: true
+      }
+    });
+
+    gsap.to('.v2-award-card, .v2-shop-photo', {
+      backgroundPosition: 'center 42%',
+      objectPosition: 'center 42%',
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.v2-story-grid',
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 0.9,
+        invalidateOnRefresh: true
+      }
+    });
+
+    ScrollTrigger.refresh();
+    window.__pineappleBakeryMotion.triggers = ScrollTrigger.getAll().length;
   }, { scope: rootRef, dependencies: [language], revertOnUpdate: true });
 
   return (
