@@ -68,6 +68,15 @@ const schedulePlaceholders = [
   ['Sun', 'Limited walk-in', '少量現貨', 'Placeholder for Sunday availability or closure.']
 ];
 
+const faqPlaceholders = [
+  ['How do I order?', 'Send us an Instagram DM with your items, quantity, pickup day, and contact name.'],
+  ['Can I walk in?', 'Walk-in stock is limited. Check Instagram stories for daily availability before visiting.'],
+  ['Where do I pick up?', 'Pickup is at the store in Sheung Wan. The exact details should be confirmed in the order reply.'],
+  ['Do you do bulk orders?', 'Yes — party boxes, office snacks, and special batches can be discussed by DM.'],
+  ['Are these final prices?', 'No. This is a demo layout; final menu, pricing, hours, and policy copy need client approval.'],
+  ['Can I see the weekly schedule?', 'Yes. Use the Schedule page for the placeholder bake calendar and pickup windows.']
+];
+
 const copy = {
   en: {
     nav: { home: 'Home', menu: 'Menu', preorder: 'Preorder', schedule: 'Schedule', about: 'About', faq: 'FAQ', order: 'Order now', language: 'Language' },
@@ -344,10 +353,14 @@ export default function V2App() {
   const homeUrl = assetBase;
   const menuUrl = `${assetBase}menu/`;
   const scheduleUrl = `${assetBase}schedule/`;
+  const aboutUrl = `${assetBase}about/`;
+  const faqUrl = `${assetBase}faq/`;
   const homeAnchor = (anchor) => `${assetBase}${anchor}`;
   const currentPath = window.location.pathname.replace(/\/+$/, '');
   const isMenuPage = currentPath.endsWith('/menu');
   const isSchedulePage = currentPath.endsWith('/schedule');
+  const isAboutPage = currentPath.endsWith('/about');
+  const isFaqPage = currentPath.endsWith('/faq');
 
   if (isMenuPage) {
     return (
@@ -361,8 +374,8 @@ export default function V2App() {
             <a href={homeUrl}>{t.nav.home}</a>
             <a href={menuUrl}>{t.nav.menu}</a>
             <a href={scheduleUrl}>{t.nav.schedule}</a>
-            <a href={homeAnchor('#v2-about')}>{t.nav.about}</a>
-            <a href={homeAnchor('#v2-faq')}>{t.nav.faq}</a>
+            <a href={aboutUrl}>{t.nav.about}</a>
+            <a href={faqUrl}>{t.nav.faq}</a>
           </div>
           <div className="v2-nav__actions">
             <a className="v2-nav__icon" href={instagramUrl} target="_blank" rel="noreferrer" aria-label="Open Instagram"><HeaderInstagramIcon width="23" height="23" /></a>
@@ -439,8 +452,8 @@ export default function V2App() {
             <a href={homeUrl}>{t.nav.home}</a>
             <a href={menuUrl}>{t.nav.menu}</a>
             <a href={scheduleUrl}>{t.nav.schedule}</a>
-            <a href={homeAnchor('#v2-about')}>{t.nav.about}</a>
-            <a href={homeAnchor('#v2-faq')}>{t.nav.faq}</a>
+            <a href={aboutUrl}>{t.nav.about}</a>
+            <a href={faqUrl}>{t.nav.faq}</a>
           </div>
           <div className="v2-nav__actions">
             <a className="v2-nav__icon" href={instagramUrl} target="_blank" rel="noreferrer" aria-label="Open Instagram"><HeaderInstagramIcon width="23" height="23" /></a>
@@ -524,6 +537,161 @@ export default function V2App() {
     );
   }
 
+
+  if (isAboutPage) {
+    return (
+      <main className="v2-site v2-menu-page v2-about-page" ref={rootRef}>
+        <nav className="v2-nav" aria-label="Version 2 navigation">
+          <a className="v2-brand" href={homeUrl} aria-label="Pineapple Bakery home">
+            <DoodleLogo />
+            <span><strong>Pineapple Bakery</strong><small>鳳梨餅家</small></span>
+          </a>
+          <div className="v2-nav__links">
+            <a href={homeUrl}>{t.nav.home}</a>
+            <a href={menuUrl}>{t.nav.menu}</a>
+            <a href={scheduleUrl}>{t.nav.schedule}</a>
+            <a href={aboutUrl}>{t.nav.about}</a>
+            <a href={faqUrl}>{t.nav.faq}</a>
+          </div>
+          <div className="v2-nav__actions">
+            <a className="v2-nav__icon" href={instagramUrl} target="_blank" rel="noreferrer" aria-label="Open Instagram"><HeaderInstagramIcon width="23" height="23" /></a>
+            <a className="v2-nav__icon" href={instagramDmUrl} target="_blank" rel="noreferrer" aria-label="Open order bag"><ShoppingBag size={23} /></a>
+            <div className="v2-lang" aria-label={t.nav.language}>
+              {['en', 'zh'].map((item) => (
+                <button key={item} type="button" className={language === item ? 'active' : ''} aria-pressed={language === item} onClick={() => setLanguage(item)}>{item === 'en' ? 'EN' : '繁'}</button>
+              ))}
+            </div>
+            <a className="v2-order" href={instagramDmUrl} target="_blank" rel="noreferrer">{t.nav.order}<ArrowRight size={16} /></a>
+            <span className="v2-order-spark" aria-hidden="true"><i></i><i></i><i></i></span>
+          </div>
+        </nav>
+
+        <section className="v2-menu-hero v2-about-hero">
+          <p className="v2-kicker">{t.story.label}</p>
+          <h1>{t.story.title}</h1>
+          <p>{t.story.body}</p>
+          <div className="v2-actions">
+            <a className="v2-button v2-button--primary" href={instagramUrl} target="_blank" rel="noreferrer">Follow our story<ArrowRight size={16} /></a>
+            <a className="v2-button" href={faqUrl}>Read FAQ</a>
+          </div>
+        </section>
+
+        <section className="v2-story-grid v2-about-story" aria-label="About Pineapple Bakery">
+          <div className="v2-award-card">
+            <div className="v2-award-badge"><span>foodie forks</span><strong>{t.award.label}</strong><small>Pineapple Bakery</small></div>
+          </div>
+          <article className="v2-copy-card">
+            <p className={`v2-award-title ${language === 'en' ? 'v2-award-title--en' : ''}`}>
+              {language === 'en' ? <>Proudly recognized.<br />Thank you! <span className="v2-award-heart" aria-hidden="true">♥</span></> : t.award.title}
+            </p>
+            <span>{t.award.body}</span>
+            <a href={openRiceUrl} target="_blank" rel="noreferrer">{t.award.cta}<ArrowRight size={15} /></a>
+          </article>
+          <article className="v2-copy-card v2-copy-card--story">
+            <em>{t.story.label}</em>
+            <h2>{t.story.title}</h2>
+            <p>{t.story.body}</p>
+            <a href={mapsUrl} target="_blank" rel="noreferrer">Find us<ArrowRight size={15} /></a>
+          </article>
+          <img className="v2-shop-photo" src={image('reference-shopfront-full.jpg')} alt="Reference street photo of Pineapple Bakery shopfront" />
+        </section>
+
+        <footer className="v2-footer">
+          <div className="v2-footer__features">
+            {t.footer.map((item, index) => {
+              const Icon = [Wheat, DoodleLogo, Heart, Package][index];
+              return <span key={item}>{index === 1 ? <DoodleLogo /> : <Icon size={24} />}<strong>{item}</strong><small>{t.footerSmall[index]}</small></span>;
+            })}
+          </div>
+          <form className="v2-subscribe" onSubmit={(event) => event.preventDefault()}>
+            <h3>{t.emailTitle}</h3>
+            <p>{t.emailText}</p>
+            <label><span className="sr-only">{t.emailPlaceholder}</span><input type="email" placeholder={t.emailPlaceholder} /></label>
+            <button type="submit">{t.subscribe}</button>
+          </form>
+          <p className="v2-disclaimer"><Languages size={15} /> EN / 繁 · {t.disclaimer}</p>
+        </footer>
+
+        <a className="v2-float" href={instagramDmUrl} target="_blank" rel="noreferrer" aria-label="Open Instagram DM order enquiry"><ShoppingBag size={19} /> {t.nav.order}</a>
+      </main>
+    );
+  }
+
+  if (isFaqPage) {
+    return (
+      <main className="v2-site v2-menu-page v2-faq-page" ref={rootRef}>
+        <nav className="v2-nav" aria-label="Version 2 navigation">
+          <a className="v2-brand" href={homeUrl} aria-label="Pineapple Bakery home">
+            <DoodleLogo />
+            <span><strong>Pineapple Bakery</strong><small>鳳梨餅家</small></span>
+          </a>
+          <div className="v2-nav__links">
+            <a href={homeUrl}>{t.nav.home}</a>
+            <a href={menuUrl}>{t.nav.menu}</a>
+            <a href={scheduleUrl}>{t.nav.schedule}</a>
+            <a href={aboutUrl}>{t.nav.about}</a>
+            <a href={faqUrl}>{t.nav.faq}</a>
+          </div>
+          <div className="v2-nav__actions">
+            <a className="v2-nav__icon" href={instagramUrl} target="_blank" rel="noreferrer" aria-label="Open Instagram"><HeaderInstagramIcon width="23" height="23" /></a>
+            <a className="v2-nav__icon" href={instagramDmUrl} target="_blank" rel="noreferrer" aria-label="Open order bag"><ShoppingBag size={23} /></a>
+            <div className="v2-lang" aria-label={t.nav.language}>
+              {['en', 'zh'].map((item) => (
+                <button key={item} type="button" className={language === item ? 'active' : ''} aria-pressed={language === item} onClick={() => setLanguage(item)}>{item === 'en' ? 'EN' : '繁'}</button>
+              ))}
+            </div>
+            <a className="v2-order" href={instagramDmUrl} target="_blank" rel="noreferrer">{t.nav.order}<ArrowRight size={16} /></a>
+            <span className="v2-order-spark" aria-hidden="true"><i></i><i></i><i></i></span>
+          </div>
+        </nav>
+
+        <section className="v2-menu-hero v2-faq-hero">
+          <p className="v2-kicker">FAQ</p>
+          <h1>Ordering, pickup, and bakery questions.</h1>
+          <p>Quick answers for customers before they send a DM or visit the shop. Final policy wording can be updated after client approval.</p>
+          <div className="v2-actions">
+            <a className="v2-button v2-button--primary" href={instagramDmUrl} target="_blank" rel="noreferrer">Ask on Instagram<ArrowRight size={16} /></a>
+            <a className="v2-button" href={scheduleUrl}>Check schedule</a>
+          </div>
+        </section>
+
+        <section className="v2-faq-board" aria-label="Frequently asked questions">
+          <div className="v2-menu-catalog__head">
+            <h2>Frequently asked</h2>
+            <p>Dedicated FAQ page — replace placeholder policies with confirmed bakery details before launch.</p>
+          </div>
+          <div className="v2-faq-grid">
+            {faqPlaceholders.map(([question, answer], index) => (
+              <article className="v2-faq-card" key={question}>
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <h3>{question}</h3>
+                <p>{answer}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <footer className="v2-footer">
+          <div className="v2-footer__features">
+            {t.footer.map((item, index) => {
+              const Icon = [Wheat, DoodleLogo, Heart, Package][index];
+              return <span key={item}>{index === 1 ? <DoodleLogo /> : <Icon size={24} />}<strong>{item}</strong><small>{t.footerSmall[index]}</small></span>;
+            })}
+          </div>
+          <form className="v2-subscribe" onSubmit={(event) => event.preventDefault()}>
+            <h3>{t.emailTitle}</h3>
+            <p>{t.emailText}</p>
+            <label><span className="sr-only">{t.emailPlaceholder}</span><input type="email" placeholder={t.emailPlaceholder} /></label>
+            <button type="submit">{t.subscribe}</button>
+          </form>
+          <p className="v2-disclaimer"><Languages size={15} /> EN / 繁 · {t.disclaimer}</p>
+        </footer>
+
+        <a className="v2-float" href={instagramDmUrl} target="_blank" rel="noreferrer" aria-label="Open Instagram DM order enquiry"><ShoppingBag size={19} /> {t.nav.order}</a>
+      </main>
+    );
+  }
+
   return (
     <main className="v2-site" ref={rootRef}>
       <nav className="v2-nav" aria-label="Version 2 navigation">
@@ -535,8 +703,8 @@ export default function V2App() {
           <a href={homeAnchor('#v2-top')}>{t.nav.home}</a>
           <a href={menuUrl}>{t.nav.menu}</a>
           <a href={scheduleUrl}>{t.nav.schedule}</a>
-          <a href="#v2-about">{t.nav.about}</a>
-          <a href="#v2-faq">{t.nav.faq}</a>
+          <a href={aboutUrl}>{t.nav.about}</a>
+          <a href={faqUrl}>{t.nav.faq}</a>
         </div>
         <div className="v2-nav__actions">
           <a className="v2-nav__icon" href={instagramUrl} target="_blank" rel="noreferrer" aria-label="Open Instagram"><HeaderInstagramIcon width="23" height="23" /></a>
@@ -619,7 +787,7 @@ export default function V2App() {
           <em>{t.story.label}</em>
           <h2>{t.story.title}</h2>
           <p>{t.story.body}</p>
-          <a href={instagramUrl} target="_blank" rel="noreferrer">{t.story.cta}<ArrowRight size={15} /></a>
+          <a href={aboutUrl}>{t.story.cta}<ArrowRight size={15} /></a>
         </article>
         <img className="v2-shop-photo" src={image('reference-shopfront-full.jpg')} alt="Reference street photo of Pineapple Bakery shopfront" />
       </section>

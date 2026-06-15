@@ -657,13 +657,61 @@ body[data-site-version='v2'] {
   letter-spacing: .08em;
 }
 
-.v2-schedule-page { overflow: visible; }
-.v2-schedule-hero {
+.v2-schedule-page,
+.v2-about-page,
+.v2-faq-page { overflow: visible; }
+.v2-schedule-hero,
+.v2-about-hero,
+.v2-faq-hero {
   background:
     radial-gradient(circle at 20% 18%, rgba(239,198,108,.38), transparent 17rem),
     radial-gradient(circle at 78% 24%, rgba(111,59,28,.12), transparent 20rem),
     linear-gradient(115deg, rgba(255,250,241,.98), rgba(247,237,220,.78)),
     repeating-linear-gradient(0deg, rgba(42,29,20,.032) 0 1px, transparent 1px 12px);
+}
+.v2-about-story {
+  border-top: 1px solid rgba(42, 29, 20, .08);
+}
+.v2-faq-board {
+  padding: clamp(44px, 6vw, 86px) clamp(20px, 5vw, 76px) clamp(64px, 7vw, 110px);
+  background: #fffaf1;
+}
+.v2-faq-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+.v2-faq-card {
+  min-height: 230px;
+  padding: 26px;
+  border-radius: 26px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.6), rgba(247,237,220,.92)),
+    repeating-linear-gradient(90deg, rgba(42,29,20,.03) 0 1px, transparent 1px 9px);
+  border: 1px solid rgba(42, 29, 20, .11);
+  box-shadow: 0 16px 38px rgba(88,56,23,.1);
+}
+.v2-faq-card span {
+  display: inline-grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  margin-bottom: 20px;
+  border-radius: 999px;
+  background: #21140d;
+  color: #fff4df;
+  font: 900 .72rem 'DM Sans', sans-serif;
+}
+.v2-faq-card h3 {
+  margin: 0 0 10px;
+  font: 900 clamp(1.24rem, 1.65vw, 1.56rem) / 1.04 'Fraunces', 'Noto Sans HK', serif;
+  letter-spacing: -.035em;
+}
+.v2-faq-card p {
+  margin: 0;
+  color: #4a3828;
+  font-weight: 800;
+  line-height: 1.5;
 }
 .v2-schedule-board {
   padding: clamp(44px, 6vw, 86px) clamp(20px, 5vw, 76px) 32px;
@@ -799,6 +847,7 @@ body[data-site-version='v2'] {
   .v2-award-card, .v2-shop-photo { min-height: 300px; }
   .v2-copy-card .v2-award-title { white-space: normal; }
   .v2-menu-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .v2-faq-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .v2-schedule-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .v2-schedule-notes { grid-template-columns: 1fr; }
   .v2-gallery__grid { grid-template-columns: repeat(3, 1fr); }
@@ -826,7 +875,7 @@ body[data-site-version='v2'] {
   .v2-menu-hero h1 { font-size: clamp(2.9rem, 14vw, 4.9rem); }
   .v2-menu-catalog__head { align-items: flex-start; flex-direction: column; }
   .v2-menu-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .v2-schedule-grid { grid-template-columns: 1fr; }
+  .v2-schedule-grid, .v2-faq-grid { grid-template-columns: 1fr; }
   .v2-schedule-card { min-height: 0; }
   .v2-gallery__head { align-items: flex-start; flex-direction: column; }
   .v2-subscribe { grid-template-columns: 1fr; }
