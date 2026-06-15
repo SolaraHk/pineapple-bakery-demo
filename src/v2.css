@@ -467,6 +467,7 @@ body[data-site-version='v2'] {
   display: grid;
   grid-template-columns: 29.05% 17.1% 25.1% 28.75%;
   height: clamp(440px, 34vw, 520px);
+  overflow: hidden;
   border-bottom: 1px solid rgba(42, 29, 20, .08);
   background: #fff7ea;
 }
@@ -543,8 +544,11 @@ body[data-site-version='v2'] {
 }
 .v2-copy-card em::after { content: ''; display: block; width: 66px; height: 3px; margin-top: 10px; background: var(--gold); }
 .v2-shop-photo {
+  display: block;
   width: 100%;
+  max-width: 100%;
   height: 100%;
+  min-width: 0;
   min-height: 0;
   object-fit: cover;
   object-position: center;
@@ -970,14 +974,17 @@ body[data-site-version='v2'] {
 }
 
 @media (max-width: 760px) {
-  .v2-nav { position: relative; min-height: auto; padding: 14px 16px; gap: 12px; }
+  .v2-nav { position: relative; grid-template-columns: 1fr; min-height: auto; padding: 14px 16px; gap: 10px; }
   .v2-brand { min-width: 0; }
   .v2-brand strong { font-size: .92rem; }
   .v2-brand small { font-size: .72rem; }
   .v2-doodle-logo { width: 46px; height: 46px; }
-  .v2-nav__actions { justify-content: flex-end; gap: 8px; }
+  .v2-nav__actions { grid-column: 1; grid-row: 2; justify-self: end; align-self: center; justify-content: flex-end; gap: 8px; }
+  .v2-nav__icon { width: 24px; height: 34px; }
+  .v2-lang { padding: 3px; }
+  .v2-lang button { width: 32px; height: 28px; }
   .v2-order { display: none; }
-  .v2-nav__links { overflow-x: auto; width: 100%; padding-bottom: 4px; flex-wrap: nowrap; }
+  .v2-nav__links { grid-column: 1; grid-row: 2; overflow-x: auto; width: calc(100% - 106px); padding: 0 0 4px; flex-wrap: nowrap; gap: 0 18px; }
   .v2-hero {
     min-height: 0;
     background:
@@ -1011,7 +1018,9 @@ body[data-site-version='v2'] {
 
 @media (max-width: 480px) {
   .v2-nav { grid-template-columns: 1fr; }
-  .v2-nav__actions { justify-content: flex-start; }
+  .v2-nav__actions { justify-self: end; justify-content: flex-end; }
+  .v2-nav__links { width: calc(100% - 104px); gap: 0 12px; font-size: .68rem; }
+  .v2-nav__links a:nth-child(n+4) { display: none; }
   .v2-feature-row, .v2-product-strip, .v2-gallery__grid, .v2-footer__features, .v2-menu-grid { grid-template-columns: 1fr; }
   .v2-hero__drink { width: 120px; height: 160px; }
 }

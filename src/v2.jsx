@@ -462,14 +462,11 @@ export default function V2App() {
           </div>
           <div className="v2-nav__actions">
             <a className="v2-nav__icon" href={instagramUrl} target="_blank" rel="noreferrer" aria-label="Open Instagram"><HeaderInstagramIcon width="23" height="23" /></a>
-            <a className="v2-nav__icon" href={instagramDmUrl} target="_blank" rel="noreferrer" aria-label="Open order bag"><ShoppingBag size={23} /></a>
             <div className="v2-lang" aria-label={t.nav.language}>
               {['en', 'zh'].map((item) => (
                 <button key={item} type="button" className={language === item ? 'active' : ''} aria-pressed={language === item} onClick={() => setLanguage(item)}>{item === 'en' ? 'EN' : '繁'}</button>
               ))}
             </div>
-            <a className="v2-order" href={instagramDmUrl} target="_blank" rel="noreferrer">{t.nav.order}<ArrowRight size={16} /></a>
-            <span className="v2-order-spark" aria-hidden="true"><i></i><i></i><i></i></span>
           </div>
         </nav>
 
@@ -575,14 +572,11 @@ export default function V2App() {
           </div>
           <div className="v2-nav__actions">
             <a className="v2-nav__icon" href={instagramUrl} target="_blank" rel="noreferrer" aria-label="Open Instagram"><HeaderInstagramIcon width="23" height="23" /></a>
-            <a className="v2-nav__icon" href={instagramDmUrl} target="_blank" rel="noreferrer" aria-label="Open order bag"><ShoppingBag size={23} /></a>
             <div className="v2-lang" aria-label={t.nav.language}>
               {['en', 'zh'].map((item) => (
                 <button key={item} type="button" className={language === item ? 'active' : ''} aria-pressed={language === item} onClick={() => setLanguage(item)}>{item === 'en' ? 'EN' : '繁'}</button>
               ))}
             </div>
-            <a className="v2-order" href={instagramDmUrl} target="_blank" rel="noreferrer">{t.nav.order}<ArrowRight size={16} /></a>
-            <span className="v2-order-spark" aria-hidden="true"><i></i><i></i><i></i></span>
           </div>
         </nav>
 
@@ -673,14 +667,11 @@ export default function V2App() {
           </div>
           <div className="v2-nav__actions">
             <a className="v2-nav__icon" href={instagramUrl} target="_blank" rel="noreferrer" aria-label="Open Instagram"><HeaderInstagramIcon width="23" height="23" /></a>
-            <a className="v2-nav__icon" href={instagramDmUrl} target="_blank" rel="noreferrer" aria-label="Open order bag"><ShoppingBag size={23} /></a>
             <div className="v2-lang" aria-label={t.nav.language}>
               {['en', 'zh'].map((item) => (
                 <button key={item} type="button" className={language === item ? 'active' : ''} aria-pressed={language === item} onClick={() => setLanguage(item)}>{item === 'en' ? 'EN' : '繁'}</button>
               ))}
             </div>
-            <a className="v2-order" href={instagramDmUrl} target="_blank" rel="noreferrer">{t.nav.order}<ArrowRight size={16} /></a>
-            <span className="v2-order-spark" aria-hidden="true"><i></i><i></i><i></i></span>
           </div>
         </nav>
 
@@ -752,14 +743,11 @@ export default function V2App() {
           </div>
           <div className="v2-nav__actions">
             <a className="v2-nav__icon" href={instagramUrl} target="_blank" rel="noreferrer" aria-label="Open Instagram"><HeaderInstagramIcon width="23" height="23" /></a>
-            <a className="v2-nav__icon" href={instagramDmUrl} target="_blank" rel="noreferrer" aria-label="Open order bag"><ShoppingBag size={23} /></a>
             <div className="v2-lang" aria-label={t.nav.language}>
               {['en', 'zh'].map((item) => (
                 <button key={item} type="button" className={language === item ? 'active' : ''} aria-pressed={language === item} onClick={() => setLanguage(item)}>{item === 'en' ? 'EN' : '繁'}</button>
               ))}
             </div>
-            <a className="v2-order" href={instagramDmUrl} target="_blank" rel="noreferrer">{t.nav.order}<ArrowRight size={16} /></a>
-            <span className="v2-order-spark" aria-hidden="true"><i></i><i></i><i></i></span>
           </div>
         </nav>
 
@@ -826,14 +814,11 @@ export default function V2App() {
         </div>
         <div className="v2-nav__actions">
           <a className="v2-nav__icon" href={instagramUrl} target="_blank" rel="noreferrer" aria-label="Open Instagram"><HeaderInstagramIcon width="23" height="23" /></a>
-          <a className="v2-nav__icon" href={instagramDmUrl} target="_blank" rel="noreferrer" aria-label="Open order bag"><ShoppingBag size={23} /></a>
           <div className="v2-lang" aria-label={t.nav.language}>
             {['en', 'zh'].map((item) => (
               <button key={item} type="button" className={language === item ? 'active' : ''} aria-pressed={language === item} onClick={() => setLanguage(item)}>{item === 'en' ? 'EN' : '繁'}</button>
             ))}
           </div>
-          <a className="v2-order" href={instagramDmUrl} target="_blank" rel="noreferrer">{t.nav.order}<ArrowRight size={16} /></a>
-          <span className="v2-order-spark" aria-hidden="true"><i></i><i></i><i></i></span>
         </div>
       </nav>
 
