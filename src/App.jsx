@@ -14,7 +14,7 @@ import {
   Wheat,
   X
 } from 'lucide-react';
-import './v2.css';
+import './App.css';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -23,7 +23,7 @@ const instagramUrl = 'https://www.instagram.com/pineapplebakeryhk/';
 const instagramDmUrl = 'https://ig.me/m/pineapplebakeryhk';
 const openRiceUrl = 'https://www.openrice.com/en/hongkong/r-pineapple-bakery-sheung-wan-hong-kong-style-bakery-r998564';
 const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=Shop%202%2C%20G%2FF%2C%2087%20Wing%20Lok%20Street%2C%20Sheung%20Wan%2C%20Hong%20Kong';
-const storageKey = 'pineapple-bakery-v2-language';
+const storageKey = 'pineapple-bakery-language';
 
 const image = (name) => `${assetBase}social/${name}`;
 
@@ -305,7 +305,7 @@ function Stamp({ children }) {
   return <span className="v2-stamp" aria-hidden="true">{children}</span>;
 }
 
-export default function V2App() {
+export default function App() {
   const rootRef = useRef(null);
   const [language, setLanguage] = useState(getInitialLanguage);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -326,7 +326,7 @@ export default function V2App() {
 
   useEffect(() => {
     document.documentElement.lang = language === 'zh' ? 'zh-Hant-HK' : 'en';
-    document.body.dataset.siteVersion = 'v2';
+    document.body.dataset.siteVersion = 'current';
     window.localStorage.setItem(storageKey, language);
     return () => { delete document.body.dataset.siteVersion; };
   }, [language]);

@@ -1,8 +1,9 @@
 {
   "scripts": {
     "dev": "vite --host 127.0.0.1",
-    "build": "vite build && node scripts/copy-v2.mjs",
-    "preview": "vite preview --host 127.0.0.1"
+    "build": "vite build && node scripts/copy-routes.mjs",
+    "preview": "vite preview --host 127.0.0.1",
+    "verify": "node scripts/verify-site.js"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
