@@ -58,6 +58,16 @@ const menuPlaceholders = [
   ['Catering / Party Orders', '派對預訂', 'Placeholder for bulk preorder details.']
 ];
 
+const schedulePlaceholders = [
+  ['Mon', 'Closed / prep day', '休息／準備日', 'Placeholder — update with actual bake plan.'],
+  ['Tue', 'Preorder pickup', '預訂自取', 'Suggested pickup windows and item list coming soon.'],
+  ['Wed', 'Small-batch bake', '小批量出爐', 'Placeholder for walk-in availability and sold-out notes.'],
+  ['Thu', 'Preorder pickup', '預訂自取', 'Placeholder for pickup windows and cut-off time.'],
+  ['Fri', 'Fresh bun drop', '新鮮出爐', 'Placeholder for weekly featured flavours.'],
+  ['Sat', 'Weekend collection', '週末自取', 'Placeholder for weekend hours and stock updates.'],
+  ['Sun', 'Limited walk-in', '少量現貨', 'Placeholder for Sunday availability or closure.']
+];
+
 const copy = {
   en: {
     nav: { home: 'Home', menu: 'Menu', preorder: 'Preorder', schedule: 'Schedule', about: 'About', faq: 'FAQ', order: 'Order now', language: 'Language' },
@@ -284,6 +294,18 @@ export default function V2App() {
       scrollTrigger: { start: 'top 110%' }
     });
 
+    revealSection('.v2-schedule-board', '.v2-schedule-board .v2-menu-catalog__head > *, .v2-schedule-card', {
+      y: 32,
+      stagger: 0.055,
+      scrollTrigger: { start: 'top 140%' }
+    });
+
+    revealSection('.v2-schedule-notes', '.v2-schedule-notes article', {
+      y: 28,
+      stagger: 0.07,
+      scrollTrigger: { start: 'top 86%' }
+    });
+
     revealSection('.v2-footer', '.v2-footer__features > span, .v2-subscribe, .v2-disclaimer', {
       y: 28,
       stagger: 0.07,
@@ -321,8 +343,11 @@ export default function V2App() {
 
   const homeUrl = assetBase;
   const menuUrl = `${assetBase}menu/`;
+  const scheduleUrl = `${assetBase}schedule/`;
   const homeAnchor = (anchor) => `${assetBase}${anchor}`;
-  const isMenuPage = window.location.pathname.replace(/\/+$/, '').endsWith('/menu');
+  const currentPath = window.location.pathname.replace(/\/+$/, '');
+  const isMenuPage = currentPath.endsWith('/menu');
+  const isSchedulePage = currentPath.endsWith('/schedule');
 
   if (isMenuPage) {
     return (
@@ -336,7 +361,7 @@ export default function V2App() {
             <a href={homeUrl}>{t.nav.home}</a>
             <a href={menuUrl}>{t.nav.menu}</a>
             <a href={homeAnchor('#v2-preorder')}>{t.nav.preorder}</a>
-            <a href={homeAnchor('#v2-schedule')}>{t.nav.schedule}</a>
+            <a href={scheduleUrl}>{t.nav.schedule}</a>
             <a href={homeAnchor('#v2-about')}>{t.nav.about}</a>
             <a href={homeAnchor('#v2-faq')}>{t.nav.faq}</a>
           </div>
@@ -403,6 +428,104 @@ export default function V2App() {
     );
   }
 
+  if (isSchedulePage) {
+    return (
+      <main className="v2-site v2-schedule-page" ref={rootRef}>
+        <nav className="v2-nav" aria-label="Version 2 navigation">
+          <a className="v2-brand" href={homeUrl} aria-label="Pineapple Bakery home">
+            <DoodleLogo />
+            <span><strong>Pineapple Bakery</strong><small>鳳梨餅家</small></span>
+          </a>
+          <div className="v2-nav__links">
+            <a href={homeUrl}>{t.nav.home}</a>
+            <a href={menuUrl}>{t.nav.menu}</a>
+            <a href={homeAnchor('#v2-preorder')}>{t.nav.preorder}</a>
+            <a href={scheduleUrl}>{t.nav.schedule}</a>
+            <a href={homeAnchor('#v2-about')}>{t.nav.about}</a>
+            <a href={homeAnchor('#v2-faq')}>{t.nav.faq}</a>
+          </div>
+          <div className="v2-nav__actions">
+            <a className="v2-nav__icon" href={instagramUrl} target="_blank" rel="noreferrer" aria-label="Open Instagram"><HeaderInstagramIcon width="23" height="23" /></a>
+            <a className="v2-nav__icon" href={instagramDmUrl} target="_blank" rel="noreferrer" aria-label="Open order bag"><ShoppingBag size={23} /></a>
+            <div className="v2-lang" aria-label={t.nav.language}>
+              {['en', 'zh'].map((item) => (
+                <button key={item} type="button" className={language === item ? 'active' : ''} aria-pressed={language === item} onClick={() => setLanguage(item)}>{item === 'en' ? 'EN' : '繁'}</button>
+              ))}
+            </div>
+            <a className="v2-order" href={instagramDmUrl} target="_blank" rel="noreferrer">{t.nav.order}<ArrowRight size={16} /></a>
+            <span className="v2-order-spark" aria-hidden="true"><i></i><i></i><i></i></span>
+          </div>
+        </nav>
+
+        <section className="v2-menu-hero v2-schedule-hero">
+          <p className="v2-kicker">Bake schedule</p>
+          <h1>Weekly schedule placeholders for pickup and walk-ins.</h1>
+          <p>Customers can check this page before visiting. The current cards are placeholders until the real weekly baking calendar, preorder cut-off times, and walk-in windows are confirmed.</p>
+          <div className="v2-actions">
+            <a className="v2-button v2-button--primary" href={instagramUrl} target="_blank" rel="noreferrer">Latest IG updates<ArrowRight size={16} /></a>
+            <a className="v2-button" href={menuUrl}>View menu</a>
+          </div>
+        </section>
+
+        <section className="v2-schedule-board" aria-label="Weekly schedule placeholder board">
+          <div className="v2-menu-catalog__head">
+            <h2>This week at the bakery</h2>
+            <p>Draft schedule layout — final days, times, products, and sold-out status will be added later.</p>
+          </div>
+          <div className="v2-schedule-grid">
+            {schedulePlaceholders.map(([day, title, chinese, text], index) => (
+              <article className="v2-schedule-card" key={day}>
+                <span className="v2-schedule-card__day">{day}</span>
+                <div>
+                  <h3>{title}</h3>
+                  <p className="v2-menu-card__zh">{chinese}</p>
+                  <p>{text}</p>
+                </div>
+                <small>{index === 0 ? 'No pickup window yet' : 'Time placeholder'}</small>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="v2-schedule-notes" aria-label="Schedule notes">
+          <article>
+            <CalendarDays size={28} />
+            <h3>Preorder cut-off</h3>
+            <p>Placeholder for the weekly order deadline and confirmation process.</p>
+          </article>
+          <article>
+            <Clock3 size={28} />
+            <h3>Pickup windows</h3>
+            <p>Placeholder for exact customer pickup windows once the bakery confirms them.</p>
+          </article>
+          <article>
+            <ShoppingBag size={28} />
+            <h3>Walk-in stock</h3>
+            <p>Placeholder for daily walk-in availability, sold-out notes, and story updates.</p>
+          </article>
+        </section>
+
+        <footer className="v2-footer">
+          <div className="v2-footer__features">
+            {t.footer.map((item, index) => {
+              const Icon = [Wheat, DoodleLogo, Heart, Package][index];
+              return <span key={item}>{index === 1 ? <DoodleLogo /> : <Icon size={24} />}<strong>{item}</strong><small>{t.footerSmall[index]}</small></span>;
+            })}
+          </div>
+          <form className="v2-subscribe" onSubmit={(event) => event.preventDefault()}>
+            <h3>{t.emailTitle}</h3>
+            <p>{t.emailText}</p>
+            <label><span className="sr-only">{t.emailPlaceholder}</span><input type="email" placeholder={t.emailPlaceholder} /></label>
+            <button type="submit">{t.subscribe}</button>
+          </form>
+          <p className="v2-disclaimer"><Languages size={15} /> EN / 繁 · {t.disclaimer}</p>
+        </footer>
+
+        <a className="v2-float" href={instagramDmUrl} target="_blank" rel="noreferrer" aria-label="Open Instagram DM order enquiry"><ShoppingBag size={19} /> {t.nav.order}</a>
+      </main>
+    );
+  }
+
   return (
     <main className="v2-site" ref={rootRef}>
       <nav className="v2-nav" aria-label="Version 2 navigation">
@@ -414,7 +537,7 @@ export default function V2App() {
           <a href={homeAnchor('#v2-top')}>{t.nav.home}</a>
           <a href={menuUrl}>{t.nav.menu}</a>
           <a href="#v2-preorder">{t.nav.preorder}</a>
-          <a href="#v2-schedule">{t.nav.schedule}</a>
+          <a href={scheduleUrl}>{t.nav.schedule}</a>
           <a href="#v2-about">{t.nav.about}</a>
           <a href="#v2-faq">{t.nav.faq}</a>
         </div>
@@ -439,7 +562,7 @@ export default function V2App() {
           <div className="v2-actions">
             <a className="v2-button v2-button--primary" href={instagramDmUrl} target="_blank" rel="noreferrer">{t.hero.primary}<ArrowRight size={16} /></a>
             <a className="v2-button" href={menuUrl}>{t.hero.menu}</a>
-            <a className="v2-button" href="#v2-schedule">{t.hero.schedule}</a>
+            <a className="v2-button" href={scheduleUrl}>{t.hero.schedule}</a>
           </div>
           <div className="v2-feature-row" aria-label="Bakery highlights">
             {t.feature.map(([title, text], index) => {
