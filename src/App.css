@@ -1025,7 +1025,7 @@ body[data-site-version='current'] {
   .v2-lang button { width: 32px; height: 28px; }
   .v2-order { display: none; }
   .v2-nav__links { grid-column: 1; grid-row: 2; overflow-x: auto; width: calc(100% - 106px); padding: 0 0 4px; flex-wrap: nowrap; gap: 0 18px; }
-  .v2-site--zh .v2-nav__links { width: calc(100% - 126px); justify-content: flex-start; gap: 0 14px; font-size: .78rem; letter-spacing: .085em; }
+  .v2-site--zh .v2-nav__links { width: calc(100% - 126px); justify-content: flex-start; gap: 0 10px; font-size: .78rem; letter-spacing: .025em; }
   .v2-hero {
     min-height: 0;
     background:
@@ -1063,7 +1063,7 @@ body[data-site-version='current'] {
   .v2-nav { grid-template-columns: 1fr; }
   .v2-nav__actions { justify-self: end; justify-content: flex-end; }
   .v2-nav__links { width: calc(100% - 104px); gap: 0 10px; font-size: .66rem; letter-spacing: .045em; }
-  .v2-site--zh .v2-nav__links { width: calc(100% - 126px); gap: 0 10px; font-size: .72rem; letter-spacing: .065em; justify-content: flex-start; }
+  .v2-site--zh .v2-nav__links { width: calc(100% - 126px); gap: 0 8px; font-size: .72rem; letter-spacing: .015em; justify-content: flex-start; }
   .v2-feature-row, .v2-product-strip, .v2-footer__features, .v2-menu-grid { grid-template-columns: 1fr; }
   .v2-hero__drink { width: 120px; height: 160px; }
 }
