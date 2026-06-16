@@ -119,8 +119,8 @@ const viewports = [
       title: document.querySelector('.v2-menu-hero h1')?.textContent.replace(/\s+/g, ' ').trim() || '',
       navLinks: [...document.querySelectorAll('.v2-nav__links a')].filter((a) => getComputedStyle(a).display !== 'none').map((a) => a.textContent.trim()),
       hasEnglishFaqTitle: document.body.textContent.includes('Ordering, pickup, and bakery questions.'),
-      hasEnglishMenuTitle: document.body.textContent.includes('Menu placeholders for every future product.'),
-      hasEnglishScheduleTitle: document.body.textContent.includes('Weekly schedule placeholders for pickup and walk-ins.')
+      hasEnglishMenuTitle: document.body.textContent.includes('Menu placeholders for every future product.') || document.body.textContent.includes('Tap for details') || document.body.textContent.includes('Product details'),
+      hasEnglishScheduleTitle: document.body.textContent.includes('Weekly schedule placeholders for pickup and walk-ins.') || document.body.textContent.includes('This week at the bakery') || document.body.textContent.includes('Draft schedule layout') || document.body.textContent.includes('Time placeholder')
     }));
     results.push({ ...result, expectedTitle: route.title, errors });
     await page.close();

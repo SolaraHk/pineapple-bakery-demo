@@ -100,6 +100,37 @@ const menuPlaceholders = [
   ['Catering / Party Orders', '派對預訂', 'Bulk preorder support for events.']
 ];
 
+
+const menuProductZhDescriptions = [
+  '金黃酥皮，鬆軟牛油麵包心。',
+  '熱辣菠蘿包配冰凍厚切牛油。',
+  '抹茶香氣配經典菠蘿酥皮。',
+  '香甜蜜汁叉燒餡，鬆軟包身。',
+  '鳳梨酥風味曲奇，適合送禮或下午茶。',
+  '冰凍香滑港式奶茶，氮氣口感更順滑。',
+  '季節限定小批量口味，定期更新。',
+  '香滑蛋漿配鬆化撻皮。',
+  '懷舊雞尾包，椰絲甜餡。',
+  '鬆軟麵包包住幼滑紅豆餡。',
+  '迷你口味組合，適合分享。',
+  '派對、公司茶點及大量預訂支援。'
+];
+
+const menuProductZhDetails = [
+  { intro: '經典香港菠蘿包：酥脆金黃外層，配鬆軟牛油麵包心，小批量新鮮出爐。', ingredients: ['Brioche 麵糰', '牛油', '雞蛋', '牛奶', '麵粉', '酥皮糖面'] },
+  { intro: '熱辣菠蘿包夾厚切冰凍牛油，甜鹹平衡，是茶餐廳經典食法。', ingredients: ['菠蘿包', '鹹牛油', '雞蛋', '牛奶', '小麥粉', '酥皮糖面'] },
+  { intro: '抹茶香氣加入經典酥皮，保留鬆軟包心，同時帶清新茶味。', ingredients: ['抹茶粉', 'Brioche 麵糰', '牛油', '雞蛋', '牛奶', '酥皮糖面'] },
+  { intro: '鬆軟麵包包住蜜汁叉燒餡，甜鹹香口，焗至金黃。', ingredients: ['叉燒', '蜜糖醬汁', '豉油', '麵包麵糰', '芝麻', '蔥'] },
+  { intro: '以鳳梨酥味道為靈感的香脆曲奇，適合送禮、咖啡或下午茶。', ingredients: ['牛油曲奇麵糰', '鳳梨風味餡', '雞蛋', '麵粉', '糖'] },
+  { intro: '港式奶茶加入氮氣般順滑口感，冰凍香滑，適合配熱辣麵包。', ingredients: ['紅茶', '淡奶', '香滑奶泡', '冰', '微糖'] },
+  { intro: '季節限定包款，配合節日、特別餡料及小批量實驗口味。', ingredients: ['季節餡料', 'Brioche 麵糰', '牛油', '雞蛋', '烘焙面層'] },
+  { intro: '港式蛋撻，香滑蛋漿配鬆化撻皮，微暖享用最好。', ingredients: ['蛋漿', '牛奶', '糖', '撻皮', '牛油'] },
+  { intro: '懷舊雞尾包，內餡香甜椰絲，外層鬆軟。', ingredients: ['椰絲', '牛油', '糖', '牛奶麵糰', '蛋漿'] },
+  { intro: '鬆軟麵包包住幼滑紅豆餡，味道溫和傳統。', ingredients: ['紅豆蓉', '牛奶麵糰', '牛油', '雞蛋', '芝麻'] },
+  { intro: '迷你包盒方便分享，適合辦公室小食、家庭下午茶或一次試多款口味。', ingredients: ['迷你雜錦包', '季節餡料', 'Brioche 麵糰', '烘焙面層'] },
+  { intro: '支援公司茶點、派對、活動及較大量自取預訂，可經 Instagram DM 商量。', ingredients: ['雜錦麵包', '派對盒包裝', '自訂數量', '提前預訂'] }
+];
+
 const menuProductDetails = [
   {
     intro: 'Our classic Hong Kong pineapple bun: crisp golden cookie crust over a soft, buttery brioche-style bun, baked fresh in small batches.',
@@ -160,6 +191,28 @@ const schedulePlaceholders = [
   ['Sat', 'Weekend collection', '週末自取', 'Placeholder for weekend hours and stock updates.'],
   ['Sun', 'Limited walk-in', '少量現貨', 'Placeholder for Sunday availability or closure.']
 ];
+
+
+const scheduleZhCopy = {
+  sectionTitle: '本週麵包店時間',
+  sectionText: '示範時間表 — 最終營業日、出爐時間、產品及售罄狀態會稍後更新。',
+  days: ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'],
+  text: [
+    '示範內容 — 稍後更新實際出爐安排。',
+    '建議自取時段及產品列表稍後更新。',
+    '示範 walk-in 供應及售罄提示位置。',
+    '示範自取時段及截單時間位置。',
+    '示範每週主打口味位置。',
+    '示範週末營業時間及庫存更新位置。',
+    '示範星期日少量現貨或休息安排。'
+  ],
+  small: ['暫未有自取時段', '時間待更新'],
+  notes: [
+    ['預訂截單', '每週截單時間及確認流程的示範位置。'],
+    ['自取時段', '待麵包店確認後，會更新實際客人自取時段。'],
+    ['Walk-in 現貨', '示範每日 walk-in 供應、售罄提示及 story 更新位置。']
+  ]
+};
 
 const faqPlaceholders = [
   ['How do I order?', 'Send us an Instagram DM with your items, quantity, pickup day, and contact name.'],
@@ -572,21 +625,30 @@ export default function App() {
           </div>
           <div className="v2-menu-grid">
             {menuPlaceholders.map(([name, chinese, text], index) => {
-              const product = { name, chinese, text, imageName: menuProductImages[index], ...menuProductDetails[index] };
+              const details = language === 'zh' ? menuProductZhDetails[index] : menuProductDetails[index];
+              const product = {
+                name,
+                chinese,
+                text: language === 'zh' ? menuProductZhDescriptions[index] : text,
+                imageName: menuProductImages[index],
+                ...details
+              };
+              const displayName = language === 'zh' ? chinese : name;
+              const secondaryName = language === 'zh' ? name : chinese;
               return (
                 <button
                   className="v2-menu-card"
                   type="button"
                   key={name}
-                  aria-label={`View details for ${name}`}
+                  aria-label={language === 'zh' ? `查看${chinese}詳情` : `View details for ${name}`}
                   onClick={() => setSelectedProduct(product)}
                 >
-                  <img src={image(product.imageName)} alt={`${name} product thumbnail`} />
-                  <span>Item {String(index + 1).padStart(2, '0')}</span>
-                  <h3>{name}</h3>
-                  <p className="v2-menu-card__zh">{chinese}</p>
-                  <p>{text}</p>
-                  <em>Tap for details</em>
+                  <img src={image(product.imageName)} alt={`${displayName} product thumbnail`} />
+                  <span>{language === 'zh' ? '產品' : 'Item'} {String(index + 1).padStart(2, '0')}</span>
+                  <h3>{displayName}</h3>
+                  <p className="v2-menu-card__zh">{secondaryName}</p>
+                  <p>{product.text}</p>
+                  <em>{language === 'zh' ? '點擊查看詳情' : 'Tap for details'}</em>
                 </button>
               );
             })}
@@ -605,15 +667,15 @@ export default function App() {
               <button className="v2-product-modal__close" type="button" aria-label="Close product details" onClick={() => setSelectedProduct(null)}><X size={20} /></button>
               <img src={image(selectedProduct.imageName)} alt={`${selectedProduct.name} close-up`} />
               <div className="v2-product-modal__body">
-                <span>Product details</span>
-                <h2 id="v2-product-modal-title">{selectedProduct.name}</h2>
-                <p className="v2-product-modal__zh">{selectedProduct.chinese}</p>
+                <span>{language === 'zh' ? '產品詳情' : 'Product details'}</span>
+                <h2 id="v2-product-modal-title">{language === 'zh' ? selectedProduct.chinese : selectedProduct.name}</h2>
+                <p className="v2-product-modal__zh">{language === 'zh' ? selectedProduct.name : selectedProduct.chinese}</p>
                 <p>{selectedProduct.intro}</p>
-                <h3>Ingredients</h3>
+                <h3>{language === 'zh' ? '材料' : 'Ingredients'}</h3>
                 <ul>
                   {selectedProduct.ingredients.map((ingredient) => <li key={ingredient}>{ingredient}</li>)}
                 </ul>
-                <a className="v2-button v2-button--primary" href={instagramDmUrl} target="_blank" rel="noreferrer">Ask about this item<ArrowRight size={16} /></a>
+                <a className="v2-button v2-button--primary" href={instagramDmUrl} target="_blank" rel="noreferrer">{language === 'zh' ? '查詢此產品' : 'Ask about this item'}<ArrowRight size={16} /></a>
               </div>
             </article>
           </div>
@@ -677,40 +739,40 @@ export default function App() {
 
         <section className="v2-schedule-board" aria-label="Weekly schedule placeholder board">
           <div className="v2-menu-catalog__head">
-            <h2>This week at the bakery</h2>
-            <p>Draft schedule layout — final days, times, products, and sold-out status will be added later.</p>
+            <h2>{language === 'zh' ? scheduleZhCopy.sectionTitle : 'This week at the bakery'}</h2>
+            <p>{language === 'zh' ? scheduleZhCopy.sectionText : 'Draft schedule layout — final days, times, products, and sold-out status will be added later.'}</p>
           </div>
           <div className="v2-schedule-grid">
             {schedulePlaceholders.map(([day, title, chinese, text], index) => (
               <article className="v2-schedule-card" key={day}>
-                <span className="v2-schedule-card__day">{day}</span>
+                <span className="v2-schedule-card__day">{language === 'zh' ? scheduleZhCopy.days[index] : day}</span>
                 <div>
-                  <h3>{title}</h3>
-                  <p className="v2-menu-card__zh">{chinese}</p>
-                  <p>{text}</p>
+                  <h3>{language === 'zh' ? chinese : title}</h3>
+                  <p className="v2-menu-card__zh">{language === 'zh' ? title : chinese}</p>
+                  <p>{language === 'zh' ? scheduleZhCopy.text[index] : text}</p>
                 </div>
-                <small>{index === 0 ? 'No pickup window yet' : 'Time placeholder'}</small>
+                <small>{language === 'zh' ? (index === 0 ? scheduleZhCopy.small[0] : scheduleZhCopy.small[1]) : (index === 0 ? 'No pickup window yet' : 'Time placeholder')}</small>
               </article>
             ))}
           </div>
         </section>
 
         <section className="v2-schedule-notes" aria-label="Schedule notes">
-          <article>
-            <CalendarDays size={28} />
-            <h3>Preorder cut-off</h3>
-            <p>Placeholder for the weekly order deadline and confirmation process.</p>
-          </article>
-          <article>
-            <Clock3 size={28} />
-            <h3>Pickup windows</h3>
-            <p>Placeholder for exact customer pickup windows once the bakery confirms them.</p>
-          </article>
-          <article>
-            <ShoppingBag size={28} />
-            <h3>Walk-in stock</h3>
-            <p>Placeholder for daily walk-in availability, sold-out notes, and story updates.</p>
-          </article>
+          {[CalendarDays, Clock3, ShoppingBag].map((Icon, index) => {
+            const englishNotes = [
+              ['Preorder cut-off', 'Placeholder for the weekly order deadline and confirmation process.'],
+              ['Pickup windows', 'Placeholder for exact customer pickup windows once the bakery confirms them.'],
+              ['Walk-in stock', 'Placeholder for daily walk-in availability, sold-out notes, and story updates.']
+            ];
+            const [heading, body] = language === 'zh' ? scheduleZhCopy.notes[index] : englishNotes[index];
+            return (
+              <article key={heading}>
+                <Icon size={28} />
+                <h3>{heading}</h3>
+                <p>{body}</p>
+              </article>
+            );
+          })}
         </section>
 
         <footer className="v2-footer">
