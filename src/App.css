@@ -1025,7 +1025,7 @@ body[data-site-version='current'] {
   .v2-lang button { width: 30px; height: 27px; }
   .v2-order { display: none; }
   .v2-nav__links { grid-column: 1; grid-row: 2; overflow-x: auto; width: calc(100% - 96px); padding: 0 0 4px; flex-wrap: nowrap; gap: 0 18px; }
-  .v2-site--zh .v2-nav__links { width: calc(100% - 108px); justify-content: flex-start; gap: 0 11px; font-size: .8rem; letter-spacing: .018em; }
+  .v2-site--zh .v2-nav__links { width: calc(100% - 108px); justify-content: flex-start; gap: 0 clamp(11px, 3.2vw, 16px); font-size: .8rem; letter-spacing: .018em; }
   .v2-hero {
     min-height: 0;
     background:
@@ -1063,7 +1063,7 @@ body[data-site-version='current'] {
   .v2-nav { grid-template-columns: 1fr; }
   .v2-nav__actions { justify-self: end; justify-content: flex-end; }
   .v2-nav__links { width: calc(100% - 96px); gap: 0 10px; font-size: .66rem; letter-spacing: .045em; }
-  .v2-site--zh .v2-nav__links { width: calc(100% - 108px); gap: 0 8px; font-size: .72rem; letter-spacing: .01em; justify-content: flex-start; }
+  .v2-site--zh .v2-nav__links { width: calc(100% - 108px); gap: 0 clamp(8.5px, 2.7vw, 11px); font-size: .72rem; letter-spacing: .01em; justify-content: flex-start; }
   .v2-feature-row, .v2-product-strip, .v2-footer__features, .v2-menu-grid { grid-template-columns: 1fr; }
   .v2-hero__drink { width: 120px; height: 160px; }
 }
