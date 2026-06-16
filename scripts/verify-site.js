@@ -48,6 +48,17 @@ const viewports = [
           topOrderBagIcons: [...document.querySelectorAll('.v2-nav__icon')].filter((a) => a.getAttribute('aria-label')?.includes('bag')).length,
           navLinks,
           navFontSize: Number.parseFloat(getComputedStyle(document.querySelector('.v2-nav__links')).fontSize),
+          pageHeroTitleStyle: (() => {
+            const heroTitle = document.querySelector('.v2-menu-hero h1');
+            if (!heroTitle) return null;
+            const style = getComputedStyle(heroTitle);
+            return {
+              letterSpacing: Number.parseFloat(style.letterSpacing),
+              wordSpacing: Number.parseFloat(style.wordSpacing),
+              lineHeight: Number.parseFloat(style.lineHeight),
+              fontSize: Number.parseFloat(style.fontSize)
+            };
+          })(),
           mobileNavSameRow: !linkBox || !actionsBox ? true : Math.abs(linkBox.y - actionsBox.y) < 12,
           horizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1,
           legacyV1CodePresent: Boolean(document.querySelector('.hero, .social-float, .language-switch'))
@@ -84,7 +95,7 @@ const viewports = [
   const failures = results.filter((item) => item.errors.length || (
     item.route === '/?lang=zh'
       ? (item.kicker !== '香港招牌' || item.title !== '香港菠蘿包 & 氮氣奶茶' || !item.navLinks.includes('關於') || !item.navLinks.includes('FAQ') || item.staleCombinedMilkTea || item.staleShortTitle)
-      : (item.horizontalOverflow || item.topOrderButtons || item.topOrderBagIcons || item.legacyV1CodePresent || item.siteVersion !== 'current' || !item.metaDescriptionHasKeywords || item.jsonLdType !== 'Bakery' || item.navFontSize < (item.viewport === 'desktop' ? 13 : 10) || !item.navLinks.includes('About') || !item.navLinks.includes('FAQ') || (item.route === '/' && item.storyCards < 4) || (item.route === '/' && item.galleryText.includes('best bakery recognition')) || (item.route === '/' && item.galleryText.includes('schedule') && !item.galleryText.includes('walk-in schedule')) || item.oldPhotoStripImages !== 0)
+      : (item.horizontalOverflow || item.topOrderButtons || item.topOrderBagIcons || item.legacyV1CodePresent || item.siteVersion !== 'current' || !item.metaDescriptionHasKeywords || item.jsonLdType !== 'Bakery' || item.navFontSize < (item.viewport === 'desktop' ? 13 : 10) || !item.navLinks.includes('About') || !item.navLinks.includes('FAQ') || (item.pageHeroTitleStyle && (item.pageHeroTitleStyle.letterSpacing < -3 || item.pageHeroTitleStyle.wordSpacing < 2 || item.pageHeroTitleStyle.lineHeight / item.pageHeroTitleStyle.fontSize < 0.98)) || (item.route === '/' && item.storyCards < 4) || (item.route === '/' && item.galleryText.includes('best bakery recognition')) || (item.route === '/' && item.galleryText.includes('schedule') && !item.galleryText.includes('walk-in schedule')) || item.oldPhotoStripImages !== 0)
   ));
   if (failures.length) {
     console.error('Verification failures:', JSON.stringify(failures, null, 2));
