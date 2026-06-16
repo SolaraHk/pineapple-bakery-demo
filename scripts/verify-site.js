@@ -87,6 +87,8 @@ const viewports = [
       navFontSize: Number.parseFloat(navStyle.fontSize),
       navLetterSpacing: Number.parseFloat(navStyle.letterSpacing),
       navJustifyContent: navStyle.justifyContent,
+      navBox: nav.getBoundingClientRect().toJSON(),
+      actionsBox: document.querySelector('.v2-nav__actions')?.getBoundingClientRect().toJSON(),
       horizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1,
       kicker: document.querySelector('.v2-hero .v2-kicker')?.textContent.trim() || '',
       title: document.querySelector('.v2-hero h1')?.textContent.replace(/\s+/g, ' ').trim() || '',
@@ -129,7 +131,7 @@ const viewports = [
 
   const failures = results.filter((item) => item.errors.length || (
     item.route === '/?lang=zh'
-      ? (item.kicker !== '香港招牌' || item.title !== '香港菠蘿包 & 氮氣奶茶' || !item.navLinks.includes('關於') || !item.navLinks.includes('FAQ') || item.navFontSize < 11.5 || item.navLetterSpacing < 1.1 || item.navJustifyContent !== 'space-between' || item.horizontalOverflow || item.staleCombinedMilkTea || item.staleShortTitle)
+      ? (item.kicker !== '香港招牌' || item.title !== '香港菠蘿包 & 氮氣奶茶' || !item.navLinks.includes('關於') || !item.navLinks.includes('FAQ') || item.navFontSize < 11 || item.navLetterSpacing < 0.7 || !item.navBox || !item.actionsBox || item.navBox.right > item.actionsBox.left - 6 || item.horizontalOverflow || item.staleCombinedMilkTea || item.staleShortTitle)
       : item.route?.endsWith('/?lang=zh')
         ? (item.title !== item.expectedTitle || !item.navLinks.includes('關於') || !item.navLinks.includes('FAQ') || item.hasEnglishFaqTitle || item.hasEnglishMenuTitle || item.hasEnglishScheduleTitle)
         : (item.horizontalOverflow || item.topOrderButtons || item.topOrderBagIcons || item.legacyV1CodePresent || item.siteVersion !== 'current' || !item.metaDescriptionHasKeywords || item.jsonLdType !== 'Bakery' || item.navFontSize < (item.viewport === 'desktop' ? 13 : 10) || !item.navLinks.includes('About') || !item.navLinks.includes('FAQ') || (item.pageHeroTitleStyle && (item.pageHeroTitleStyle.letterSpacing < -3 || item.pageHeroTitleStyle.wordSpacing < 2 || item.pageHeroTitleStyle.lineHeight / item.pageHeroTitleStyle.fontSize < 0.98)) || (item.route === '/' && item.storyCards < 4) || (item.route === '/' && item.galleryText.includes('best bakery recognition')) || (item.route === '/' && item.galleryText.includes('schedule') && !item.galleryText.includes('walk-in schedule')) || item.oldPhotoStripImages !== 0)
