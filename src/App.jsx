@@ -472,7 +472,7 @@ export default function App() {
       scrollTrigger: { start: 'top 110%' }
     });
 
-    revealSection('.v2-schedule-board', '.v2-schedule-board .v2-menu-catalog__head > *, .v2-schedule-card', {
+    revealSection('.v2-schedule-board', '.v2-schedule-board .v2-menu-catalog__head > *, .v2-daily-menu-photo-card, .v2-schedule-card', {
       y: 32,
       stagger: 0.055,
       scrollTrigger: { start: 'top 140%' }
@@ -545,11 +545,16 @@ export default function App() {
         sectionText: 'Placeholder catalogue — final product list coming next.'
       },
       schedule: {
-        kicker: 'Bake schedule',
-        title: 'Weekly schedule placeholders for pickup and walk-ins.',
-        text: 'Customers can check this page before visiting. The current cards are placeholders until the real weekly baking calendar, preorder cut-off times, and walk-in windows are confirmed.',
+        kicker: 'Daily bake update',
+        title: 'Today’s menu photo and pickup schedule.',
+        text: 'Use this page for the changing daily menu photo, walk-in availability, pickup windows, and preorder updates. The full product catalogue stays on the Menu page.',
         primary: 'Latest IG updates',
-        secondary: 'View menu'
+        secondary: 'View full catalogue',
+        dailyTitle: 'Today’s daily menu photo',
+        dailyText: 'Replace the image file at public/social/daily-menu-photo.jpg each day to update this area without changing the full catalogue.',
+        dailyNote: 'Daily menu image placeholder — swap this file when today’s board is ready.',
+        sectionTitle: 'Weekly pickup schedule',
+        sectionText: 'Use these cards for recurring pickup windows, preorder cut-offs, and walk-in availability. The daily menu photo above can change every day.'
       },
       about: { primary: 'Follow our story', secondary: 'Read FAQ', map: 'Find us' },
       faq: {
@@ -573,11 +578,16 @@ export default function App() {
         sectionText: '示範餐單 — 最終產品列表稍後更新。'
       },
       schedule: {
-        kicker: '出爐時間',
-        title: '每週自取及 walk-in 時間預覽',
-        text: '客人到店前可先查看此頁。現有卡片為示範內容，之後會更新真實每週出爐日程、預訂截止時間及 walk-in 時段。',
+        kicker: '每日出爐更新',
+        title: '每日餐單相片及自取時間',
+        text: '此頁用作每日更新餐單相片、walk-in 供應、自取時段及預訂資訊。完整產品目錄保留在餐單頁。',
         primary: '最新 IG 更新',
-        secondary: '查看餐單'
+        secondary: '查看完整餐單',
+        dailyTitle: '今日每日餐單相片',
+        dailyText: '每日只需替換 public/social/daily-menu-photo.jpg 這張相，就可以更新此位置；完整餐單頁不需要每日改動。',
+        dailyNote: '每日餐單相片示範位 — 今日餐單準備好後直接替換同一檔名。',
+        sectionTitle: '每週自取時間',
+        sectionText: '這些卡片用作固定自取時段、預訂截止時間及 walk-in 供應；上面的每日餐單相片可每日更新。'
       },
       about: { primary: '追蹤我們的故事', secondary: '閱讀 FAQ', map: '查看位置' },
       faq: {
@@ -746,10 +756,26 @@ export default function App() {
           </div>
         </section>
 
-        <section className="v2-schedule-board" aria-label="Weekly schedule placeholder board">
+        <section className="v2-schedule-board" aria-label="Daily menu photo and weekly schedule">
           <div className="v2-menu-catalog__head">
-            <h2>{language === 'zh' ? scheduleZhCopy.sectionTitle : 'This week at the bakery'}</h2>
-            <p>{language === 'zh' ? scheduleZhCopy.sectionText : 'Draft schedule layout — final days, times, products, and sold-out status will be added later.'}</p>
+            <h2>{pageCopy.schedule.dailyTitle}</h2>
+            <p>{pageCopy.schedule.dailyText}</p>
+          </div>
+          <article className="v2-daily-menu-photo-card" aria-label={pageCopy.schedule.dailyTitle}>
+            <div className="v2-daily-menu-photo-card__copy">
+              <span>{language === 'zh' ? '每日更新' : 'Daily update'}</span>
+              <h3>{pageCopy.schedule.dailyTitle}</h3>
+              <p>{pageCopy.schedule.dailyNote}</p>
+            </div>
+            <figure className="v2-daily-menu-photo-frame">
+              <img src={image('daily-menu-photo.jpg')} alt={language === 'zh' ? '今日每日餐單相片示範圖' : 'Placeholder photo for today’s daily menu board'} width="1200" height="1600" loading="eager" />
+              <figcaption>{language === 'zh' ? '保留同一檔名，每日替換相片。' : 'Keep the same filename and replace the photo daily.'}</figcaption>
+            </figure>
+          </article>
+
+          <div className="v2-menu-catalog__head v2-schedule-board__weekly-head">
+            <h2>{pageCopy.schedule.sectionTitle}</h2>
+            <p>{pageCopy.schedule.sectionText}</p>
           </div>
           <div className="v2-schedule-grid">
             {schedulePlaceholders.map(([day, title, chinese, text], index) => (

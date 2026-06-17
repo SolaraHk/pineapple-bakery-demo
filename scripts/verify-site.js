@@ -4,7 +4,7 @@ const base = process.argv[2] || 'http://127.0.0.1:4173/pineapple-bakery-demo/';
 const routes = [
   { path: '', marker: 'Pineapple Bun & Nitro Milk Tea' },
   { path: 'menu/', marker: 'Product showcase' },
-  { path: 'schedule/', marker: 'This week at the bakery' },
+  { path: 'schedule/', marker: 'Today’s daily menu photo' },
   { path: 'about/', marker: 'Baked with heart, Hong Kong in every bite' },
   { path: 'faq/', marker: 'Frequently asked' }
 ];
@@ -68,6 +68,11 @@ const viewports = [
           legacyV1CodePresent: Boolean(document.querySelector('.hero, .social-float, .language-switch')),
           menuHeroUsesUploadedBackground: getComputedStyle(document.querySelector('.v2-menu-hero--menu') || document.body).backgroundImage.includes('menu-background-matcha-buns.jpg'),
           scheduleHeroUsesUploadedBackground: getComputedStyle(document.querySelector('.v2-schedule-hero') || document.body).backgroundImage.includes('schedule-background-pickup.png'),
+          scheduleDailyMenuPhotoPresent: Boolean(document.querySelector('.v2-schedule-page .v2-daily-menu-photo-frame img[src$="daily-menu-photo.jpg"]')),
+          scheduleDailyMenuPhotoNaturalSize: (() => {
+            const img = document.querySelector('.v2-schedule-page .v2-daily-menu-photo-frame img');
+            return img ? { width: img.naturalWidth, height: img.naturalHeight } : null;
+          })(),
           aboutHeroUsesUploadedBackground: getComputedStyle(document.querySelector('.v2-about-hero') || document.body).backgroundImage.includes('about-background-packaging.png'),
           faqHeroUsesUploadedBackground: getComputedStyle(document.querySelector('.v2-faq-hero') || document.body).backgroundImage.includes('faq-background-any-questions.jpg')
         };
@@ -110,7 +115,7 @@ const viewports = [
 
   const zhPageRoutes = [
     { path: 'menu/?lang=zh', title: '未來產品餐單預覽' },
-    { path: 'schedule/?lang=zh', title: '每週自取及 walk-in 時間預覽' },
+    { path: 'schedule/?lang=zh', title: '每日餐單相片及自取時間' },
     { path: 'about/?lang=zh', title: '用心烘焙，每一口都是香港味。' },
     { path: 'faq/?lang=zh', title: '預訂、自取及麵包店常見問題' }
   ];
@@ -144,7 +149,7 @@ const viewports = [
       ? (item.kicker !== '香港招牌' || item.title !== '香港菠蘿包 & 氮氣奶茶' || !item.navLinks.includes('關於') || !item.navLinks.includes('FAQ') || item.navFontSize < 11 || item.navLetterSpacing > 0.25 || item.navColumnGap < 10 || !item.navBox || !item.actionsBox || item.navBox.right > item.actionsBox.left - 6 || item.horizontalOverflow || item.staleCombinedMilkTea || item.staleShortTitle)
       : item.route?.endsWith('/?lang=zh')
         ? (item.title !== item.expectedTitle || !item.navLinks.includes('關於') || !item.navLinks.includes('FAQ') || item.hasEnglishFaqTitle || item.hasEnglishMenuTitle || item.hasEnglishScheduleTitle || (item.route === 'faq/?lang=zh' && (!item.faqQuestions?.includes('如何落單？') || !item.faqQuestions?.includes('可以 walk-in 嗎？'))))
-        : (item.horizontalOverflow || item.topOrderButtons || item.topOrderBagIcons || item.legacyV1CodePresent || (item.route !== '/' && (item.pageHeroContentClipped || item.pageHeroHeight < 700 || item.pageHeroHeight > 740)) || (item.route === 'menu/' && !item.menuHeroUsesUploadedBackground) || (item.route === 'schedule/' && !item.scheduleHeroUsesUploadedBackground) || (item.route === 'about/' && !item.aboutHeroUsesUploadedBackground) || (item.route === 'faq/' && !item.faqHeroUsesUploadedBackground) || item.siteVersion !== 'current' || !item.metaDescriptionHasKeywords || item.jsonLdType !== 'Bakery' || item.navFontSize < (item.viewport === 'desktop' ? 13 : 10) || !item.navLinks.includes('About') || !item.navLinks.includes('FAQ') || (item.pageHeroTitleStyle && (item.pageHeroTitleStyle.letterSpacing < -3 || item.pageHeroTitleStyle.wordSpacing < 2 || item.pageHeroTitleStyle.lineHeight / item.pageHeroTitleStyle.fontSize < 0.98)) || (item.route === '/' && item.storyCards < 4) || (item.route === '/' && item.galleryText.includes('best bakery recognition')) || (item.route === '/' && item.galleryText.includes('schedule') && !item.galleryText.includes('walk-in schedule')) || item.oldPhotoStripImages !== 0)
+        : (item.horizontalOverflow || item.topOrderButtons || item.topOrderBagIcons || item.legacyV1CodePresent || (item.route !== '/' && (item.pageHeroContentClipped || item.pageHeroHeight < 700 || item.pageHeroHeight > 740)) || (item.route === 'menu/' && !item.menuHeroUsesUploadedBackground) || (item.route === 'schedule/' && (!item.scheduleHeroUsesUploadedBackground || !item.scheduleDailyMenuPhotoPresent || !item.scheduleDailyMenuPhotoNaturalSize || item.scheduleDailyMenuPhotoNaturalSize.width < 100)) || (item.route === 'about/' && !item.aboutHeroUsesUploadedBackground) || (item.route === 'faq/' && !item.faqHeroUsesUploadedBackground) || item.siteVersion !== 'current' || !item.metaDescriptionHasKeywords || item.jsonLdType !== 'Bakery' || item.navFontSize < (item.viewport === 'desktop' ? 13 : 10) || !item.navLinks.includes('About') || !item.navLinks.includes('FAQ') || (item.pageHeroTitleStyle && (item.pageHeroTitleStyle.letterSpacing < -3 || item.pageHeroTitleStyle.wordSpacing < 2 || item.pageHeroTitleStyle.lineHeight / item.pageHeroTitleStyle.fontSize < 0.98)) || (item.route === '/' && item.storyCards < 4) || (item.route === '/' && item.galleryText.includes('best bakery recognition')) || (item.route === '/' && item.galleryText.includes('schedule') && !item.galleryText.includes('walk-in schedule')) || item.oldPhotoStripImages !== 0)
   ));
   if (failures.length) {
     console.error('Verification failures:', JSON.stringify(failures, null, 2));
