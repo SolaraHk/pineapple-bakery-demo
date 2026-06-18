@@ -808,7 +808,7 @@ export default function App() {
           <div className="v2-legal-row"><span>{legalCopy.rights}</span><a href={privacyUrl}>{legalCopy.privacy}</a><a href={termsUrl}>{legalCopy.terms}</a></div>
         </footer>
 
-        <a className="v2-float" href={instagramDmUrl} target="_blank" rel="noreferrer" aria-label="Open Instagram DM order enquiry"><ShoppingBag size={19} /> {t.nav.order}</a>
+
       </main>
     );
   }
@@ -919,7 +919,7 @@ export default function App() {
           <div className="v2-legal-row"><span>{legalCopy.rights}</span><a href={privacyUrl}>{legalCopy.privacy}</a><a href={termsUrl}>{legalCopy.terms}</a></div>
         </footer>
 
-        <a className="v2-float" href={instagramDmUrl} target="_blank" rel="noreferrer" aria-label="Open Instagram DM order enquiry"><ShoppingBag size={19} /> {t.nav.order}</a>
+
       </main>
     );
   }
@@ -997,7 +997,7 @@ export default function App() {
           <div className="v2-legal-row"><span>{legalCopy.rights}</span><a href={privacyUrl}>{legalCopy.privacy}</a><a href={termsUrl}>{legalCopy.terms}</a></div>
         </footer>
 
-        <a className="v2-float" href={instagramDmUrl} target="_blank" rel="noreferrer" aria-label="Open Instagram DM order enquiry"><ShoppingBag size={19} /> {t.nav.order}</a>
+
       </main>
     );
   }
@@ -1070,7 +1070,7 @@ export default function App() {
           <div className="v2-legal-row"><span>{legalCopy.rights}</span><a href={privacyUrl}>{legalCopy.privacy}</a><a href={termsUrl}>{legalCopy.terms}</a></div>
         </footer>
 
-        <a className="v2-float" href={instagramDmUrl} target="_blank" rel="noreferrer" aria-label="Open Instagram DM order enquiry"><ShoppingBag size={19} /> {t.nav.order}</a>
+
       </main>
     );
   }
@@ -1216,7 +1216,7 @@ export default function App() {
         <div className="v2-legal-row"><span>{legalCopy.rights}</span><a href={privacyUrl}>{legalCopy.privacy}</a><a href={termsUrl}>{legalCopy.terms}</a></div>
       </footer>
 
-      <a className="v2-float" href={instagramDmUrl} target="_blank" rel="noreferrer" aria-label="Open Instagram DM order enquiry"><ShoppingBag size={19} /> {t.nav.order}</a>
+
     </main>
   );
 }
