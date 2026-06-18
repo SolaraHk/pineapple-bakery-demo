@@ -1166,6 +1166,7 @@ body[data-site-version='current'] {
 .v2-story-card__copy b { display: inline-flex; margin-bottom: 8px; color: #ffd878; font: 950 .68rem 'DM Sans', sans-serif; text-transform: uppercase; letter-spacing: .08em; }
 .v2-story-card__copy h3 { margin: 0 0 8px; color: #fff; font: 950 clamp(1.24rem, 1.7vw, 1.62rem) / .98 'Fraunces', 'Noto Sans HK', serif; letter-spacing: -.035em; }
 .v2-story-card__copy p { margin: 0; color: rgba(255,250,241,.9); font-size: .82rem; font-weight: 800; line-height: 1.45; }
+.v2-story-dots { display: none; }
 .v2-seo-note { max-width: 900px; margin: 24px 0 0; color: rgba(42,29,20,.72); font-size: .82rem; font-weight: 900; line-height: 1.55; }
 
 .v2-footer {
@@ -1333,8 +1334,19 @@ body[data-site-version='current'] {
     border-radius: 15px;
   }
   .v2-preorder > .v2-doodle-logo { opacity: .45; }
-  .v2-story-showcase { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-  .v2-story-card { min-width: 0; min-height: 320px; border-radius: 22px; }
+  .v2-story-showcase {
+    display: flex;
+    gap: 12px;
+    margin-inline: -24px;
+    padding: 0 24px 10px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-padding-left: 24px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .v2-story-showcase::-webkit-scrollbar { display: none; }
+  .v2-story-card { flex: 0 0 min(78vw, 310px); min-width: 0; min-height: 360px; border-radius: 22px; scroll-snap-align: start; }
   .v2-story-card__overlay { min-width: 0; padding: 10px; }
   .v2-story-card__top { min-width: 0; align-items: flex-start; }
   .v2-story-card__top > span { min-width: 0; overflow-wrap: anywhere; font-size: clamp(.56rem, 2.4vw, .68rem); line-height: 1.2; }
@@ -1343,6 +1355,30 @@ body[data-site-version='current'] {
   .v2-story-card__copy b { font-size: .58rem; }
   .v2-story-card__copy h3 { font-size: clamp(1rem, 5vw, 1.24rem); }
   .v2-story-card__copy p { font-size: .72rem; line-height: 1.34; overflow-wrap: anywhere; }
+  .v2-story-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .v2-story-dots button {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: rgba(33,20,13,.22);
+    cursor: pointer;
+    transition: width .18s ease, background-color .18s ease, transform .18s ease;
+  }
+  .v2-story-dots button.is-active {
+    width: 24px;
+    background: #21140d;
+  }
+  .v2-story-dots button:focus-visible {
+    outline: 3px solid rgba(239,198,108,.78);
+    outline-offset: 4px;
+  }
   .v2-story-grid { grid-template-columns: 1fr; height: auto; }
 
   .v2-menu-hero {

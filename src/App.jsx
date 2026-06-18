@@ -395,8 +395,10 @@ function Stamp({ children }) {
 
 export default function App() {
   const rootRef = useRef(null);
+  const storyCarouselRef = useRef(null);
   const [language, setLanguage] = useState(getInitialLanguage);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [activeStoryIndex, setActiveStoryIndex] = useState(0);
   const t = copy[language];
 
   useEffect(() => {
@@ -418,6 +420,43 @@ export default function App() {
     window.localStorage.setItem(storageKey, language);
     return () => { delete document.body.dataset.siteVersion; };
   }, [language]);
+
+  useEffect(() => {
+    const carousel = storyCarouselRef.current;
+    if (!carousel) return undefined;
+
+    let animationFrame = 0;
+    const updateActiveStory = () => {
+      window.cancelAnimationFrame(animationFrame);
+      animationFrame = window.requestAnimationFrame(() => {
+        const cards = [...carousel.querySelectorAll('.v2-story-card')];
+        if (!cards.length) return;
+        const carouselLeft = carousel.getBoundingClientRect().left;
+        const closestIndex = cards.reduce((closest, card, index) => {
+          const distance = Math.abs(card.getBoundingClientRect().left - carouselLeft);
+          return distance < closest.distance ? { index, distance } : closest;
+        }, { index: 0, distance: Number.POSITIVE_INFINITY }).index;
+        setActiveStoryIndex(closestIndex);
+      });
+    };
+
+    updateActiveStory();
+    carousel.addEventListener('scroll', updateActiveStory, { passive: true });
+    window.addEventListener('resize', updateActiveStory);
+    return () => {
+      window.cancelAnimationFrame(animationFrame);
+      carousel.removeEventListener('scroll', updateActiveStory);
+      window.removeEventListener('resize', updateActiveStory);
+    };
+  }, []);
+
+  const goToStory = (index) => {
+    const carousel = storyCarouselRef.current;
+    const card = carousel?.querySelectorAll('.v2-story-card')[index];
+    if (!carousel || !card) return;
+    carousel.scrollTo({ left: card.offsetLeft - carousel.offsetLeft, behavior: 'smooth' });
+    setActiveStoryIndex(index);
+  };
 
   useGSAP(() => {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1177,7 +1216,7 @@ export default function App() {
           <div><h2>{t.galleryTitle}</h2><p>{t.gallerySub}</p></div>
           <a className="v2-button v2-button--outline" href={instagramUrl} target="_blank" rel="noreferrer"><Camera size={17} />{t.instagram}</a>
         </div>
-        <div className="v2-story-showcase" aria-label="Customer repost Instagram story showcase">
+        <div ref={storyCarouselRef} className="v2-story-showcase" aria-label="Customer repost Instagram story carousel">
           {storyShowcase.map((item) => (
             <article className="v2-story-card" key={item.title}>
               <img src={image(item.imageName)} alt={`${item.title} customer repost story`} />
@@ -1194,6 +1233,18 @@ export default function App() {
                 </div>
               </div>
             </article>
+          ))}
+        </div>
+        <div className="v2-story-dots" aria-label="Customer story carousel controls">
+          {storyShowcase.map((item, index) => (
+            <button
+              type="button"
+              key={item.title}
+              className={index === activeStoryIndex ? 'is-active' : ''}
+              aria-label={`Show customer story ${index + 1}`}
+              aria-current={index === activeStoryIndex ? 'true' : undefined}
+              onClick={() => goToStory(index)}
+            />
           ))}
         </div>
         <p className="v2-seo-note">Pineapple Bakery 鳳梨餅家 · Sheung Wan bakery · Hong Kong pineapple bun · customer reposts · 客人回圖 · Instagram story screenshots · tagged photos · nitro milk tea</p>
