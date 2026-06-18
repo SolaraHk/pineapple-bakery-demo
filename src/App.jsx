@@ -433,6 +433,7 @@ export default function App() {
       .from('.v2-hero__drink, .v2-stamp, .v2-paper-doodle', { y: 22, rotate: -3, opacity: 0, stagger: 0.08 }, '-=0.36');
 
     const revealSection = (trigger, targets, vars = {}) => {
+      if (!document.querySelector(trigger) || !document.querySelector(targets)) return;
       gsap.from(targets, {
         y: 42,
         opacity: 0,
@@ -454,8 +455,7 @@ export default function App() {
     });
 
     revealSection('.v2-story-grid', '.v2-award-card, .v2-copy-card, .v2-shop-photo', {
-      y: 0,
-      x: 36,
+      y: 34,
       stagger: 0.11,
       duration: 0.95,
       scrollTrigger: { start: 'top 72%' }
