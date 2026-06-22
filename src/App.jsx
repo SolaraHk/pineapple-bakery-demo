@@ -696,8 +696,27 @@ export default function App() {
 
   if (isPrivacyPage || isTermsPage) {
     const legalPage = isPrivacyPage
-      ? { title: legalCopy.privacyTitle, kicker: legalCopy.privacyKicker, text: legalCopy.privacyText, sections: legalCopy.privacySections, pageType: 'privacy-policy' }
-      : { title: legalCopy.termsTitle, kicker: legalCopy.termsKicker, text: legalCopy.termsText, sections: legalCopy.termsSections, pageType: 'terms-and-conditions' };
+      ? {
+        title: legalCopy.privacyTitle,
+        kicker: legalCopy.privacyKicker,
+        text: legalCopy.privacyText,
+        sections: legalCopy.privacySections,
+        pageType: 'privacy-policy',
+        relatedHref: termsUrl,
+        relatedLabel: legalCopy.terms,
+        relatedText: language === 'zh' ? '前往獨立 Terms and Conditions 頁面' : 'Go to the separate Terms and Conditions page'
+      }
+      : {
+        title: legalCopy.termsTitle,
+        kicker: legalCopy.termsKicker,
+        text: legalCopy.termsText,
+        sections: legalCopy.termsSections,
+        pageType: 'terms-and-conditions',
+        relatedHref: privacyUrl,
+        relatedLabel: legalCopy.privacy,
+        relatedText: language === 'zh' ? '前往獨立 Privacy Policy 頁面' : 'Go to the separate Privacy Policy page'
+      };
+
     return (
       <main className={siteClass('v2-menu-page', 'v2-legal-page')} ref={rootRef}>
         <nav className="v2-nav" aria-label="Version 2 navigation">
@@ -742,6 +761,10 @@ export default function App() {
               </article>
             ))}
           </div>
+          <aside className="v2-legal-crosslink" aria-label={language === 'zh' ? '相關法律頁面' : 'Related legal page'}>
+            <span>{legalPage.relatedText}</span>
+            <a className="v2-button v2-button--outline" href={legalPage.relatedHref}>{legalPage.relatedLabel}<ArrowRight size={16} /></a>
+          </aside>
         </section>
 
         <footer className="v2-footer">

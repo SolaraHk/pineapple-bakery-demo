@@ -82,7 +82,9 @@ const viewports = [
           faqHeroUsesUploadedBackground: getComputedStyle(document.querySelector('.v2-faq-hero') || document.body).backgroundImage.includes('faq-background-any-questions.jpg'),
           legalPageType: document.querySelector('.v2-legal-content')?.dataset.legalPage || '',
           legalSectionHeadings: [...document.querySelectorAll('.v2-legal-section-card h3')].map((el) => el.textContent.trim()),
-          legalIntroText: document.querySelector('.v2-legal-intro')?.textContent || ''
+          legalIntroText: document.querySelector('.v2-legal-intro')?.textContent || '',
+          legalCrosslinkText: document.querySelector('.v2-legal-crosslink')?.textContent.replace(/\s+/g, ' ').trim() || '',
+          legalCrosslinkHref: document.querySelector('.v2-legal-crosslink a')?.getAttribute('href') || ''
         };
       });
 
@@ -154,10 +156,10 @@ const viewports = [
 
   const hasLegalFailure = (item) => {
     if (item.route === 'privacy-policy/') {
-      return item.legalPageType !== 'privacy-policy' || item.legalSectionHeadings.length < 4 || !item.legalSectionHeadings.includes('Information we may collect') || item.legalSectionHeadings.includes('Website use') || !item.legalIntroText.includes('separate Privacy Policy page');
+      return item.legalPageType !== 'privacy-policy' || item.legalSectionHeadings.length < 4 || !item.legalSectionHeadings.includes('Information we may collect') || item.legalSectionHeadings.includes('Website use') || !item.legalIntroText.includes('separate Privacy Policy page') || !item.legalCrosslinkHref.includes('/terms-and-conditions/') || !item.legalCrosslinkText.includes('Terms and Conditions');
     }
     if (item.route === 'terms-and-conditions/') {
-      return item.legalPageType !== 'terms-and-conditions' || item.legalSectionHeadings.length < 4 || !item.legalSectionHeadings.includes('Website use') || item.legalSectionHeadings.includes('Information we may collect') || !item.legalIntroText.includes('separate Terms and Conditions page');
+      return item.legalPageType !== 'terms-and-conditions' || item.legalSectionHeadings.length < 4 || !item.legalSectionHeadings.includes('Website use') || item.legalSectionHeadings.includes('Information we may collect') || !item.legalIntroText.includes('separate Terms and Conditions page') || !item.legalCrosslinkHref.includes('/privacy-policy/') || !item.legalCrosslinkText.includes('Privacy Policy');
     }
     return false;
   };
